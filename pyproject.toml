@@ -1,0 +1,16 @@
+[project]
+name = "py-vetlog-calendar"
+version = "1.0.0"
+description = "Vetlog appointments organizer"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache 2.0" }
+authors = [{ name = "Jose Morales", email = "contact@josdem.io" }]
+dependencies = []
+
+[project.scripts]
+
+[build-system]
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning"]
