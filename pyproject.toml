@@ -9,6 +9,7 @@ authors = [{ name = "Jose Morales", email = "contact@josdem.io" }]
 dependencies = []
 
 [project.scripts]
+version = "vetlog_calendar.main:version_check"
 
 [build-system]
 
