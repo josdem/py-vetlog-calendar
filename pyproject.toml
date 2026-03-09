@@ -12,6 +12,7 @@ dependencies = [
 
 [project.scripts]
 version = "vetlog_calendar.main:version_check"
+events = "vetlog_calendar.main:list_events"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
