@@ -23,6 +23,13 @@ uv run version
 
 ## Usage
 
+**Run**
+
+```sh
+# List upcoming events
+uv run events
+```
+
 **Format**
 
 ```sh
