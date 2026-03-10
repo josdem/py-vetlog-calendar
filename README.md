@@ -44,6 +44,7 @@ uv run ruff check --fix
 ```
 
 **Links**
+- https://github.com/josdem/py-vetlog-calendar/wiki
 - https://github.com/josdem/vetlog-spring-boot
 
 
