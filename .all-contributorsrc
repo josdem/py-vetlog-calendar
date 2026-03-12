@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "habartakh",
+      "name": "Hajar Bartakh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/177358275?v=4",
+      "profile": "https://github.com/habartakh",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "py-vetlog-calendar",
+  "projectOwner": "josdem"
+}
