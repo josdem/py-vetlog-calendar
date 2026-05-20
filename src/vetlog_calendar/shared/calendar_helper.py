@@ -76,7 +76,9 @@ class Helper:
             f"{self.owner.first_name} {self.owner.last_name}\n{self.owner.mobile}\n"
         )
         validated_date = date_helper.validate_date(self.vaccination.date)
-        last_deworming_date = date_helper.get_last_deworming_date(self.vaccination.date, self.pet.going_out_often)
+        last_deworming_date = date_helper.get_last_deworming_date(
+            self.vaccination.date, self.pet.going_out_often
+        )
         description_info = self.locale.get_deworming_description(
             pet=self.pet.name, date=last_deworming_date.strftime("%Y-%m-%d")
         )

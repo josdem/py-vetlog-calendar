@@ -25,7 +25,9 @@ def validate_date(date: datetime) -> datetime:
             return date
 
 
-def get_last_deworming_date(vaccination_date: datetime, going_out_often: bool) -> datetime:
+def get_last_deworming_date(
+    vaccination_date: datetime, going_out_often: bool
+) -> datetime:
     """Return estimated last deworming date: 6 months before appointment if pet goes out often, else 1 year before"""
     if going_out_often:
         month = vaccination_date.month - 6
