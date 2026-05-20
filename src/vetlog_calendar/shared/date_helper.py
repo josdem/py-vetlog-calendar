@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import calendar
 from datetime import datetime, timedelta
 
 
@@ -22,3 +23,16 @@ def validate_date(date: datetime) -> datetime:
             return date + timedelta(days=2)
         case _:
             return date
+
+
+def get_last_deworming_date(vaccination_date: datetime, going_out_often: bool) -> datetime:
+    """Return estimated last deworming date: 6 months before appointment if pet goes out often, else 1 year before"""
+    if going_out_often:
+        month = vaccination_date.month - 6
+        year = vaccination_date.year + (month - 1) // 12
+        month = (month - 1) % 12 + 1
+    else:
+        year = vaccination_date.year - 1
+        month = vaccination_date.month
+    day = min(vaccination_date.day, calendar.monthrange(year, month)[1])
+    return vaccination_date.replace(year=year, month=month, day=day)
