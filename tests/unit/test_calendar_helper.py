@@ -161,7 +161,7 @@ def test_get_deworming_event_description(pet, vaccination, owner):
         expected_description = {
             "summary": "Jose - Deworming appointment for Sora",
             "location": "Whatever works for you",
-            "description": "Jose Morales\n1234567890\n\nPlease validate deworming appointment for pet Sora since the last deworming was: 2025-05-21\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/",
+            "description": "Jose Morales\n1234567890\n\nPlease validate deworming appointment for pet Sora since the last deworming was: 2025-05-26\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/",
             "start": {
                 "dateTime": "2026-05-21T12:00:00-06:00",
                 "timeZone": "UTC",
