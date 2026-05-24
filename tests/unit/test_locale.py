@@ -130,5 +130,5 @@ def test_get_vaccine_type_returns_name_unchanged_for_english():
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_unknown_in_spanish():
-    """Locale returns unknown vaccine name unchanged even in Spanish"""
+    """Locale returns a formatted vaccine type line in Spanish, even for unknown vaccine names"""
     assert Locale("es").get_vaccine_type("C6CV") == "Dosis: C6CV\n"
