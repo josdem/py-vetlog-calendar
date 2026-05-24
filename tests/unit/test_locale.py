@@ -121,14 +121,14 @@ def test_return_english_deworming_description():
 
 def test_get_vaccine_type_returns_spanish_translation():
     """Locale translates Rabies to Rabia in Spanish"""
-    assert Locale("es").get_vaccine_type("Rabies") == "Rabia"
+    assert Locale("es").get_vaccine_type("Rabies") == "Dosis: Rabia"
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_english():
     """Locale returns vaccine name unchanged in English"""
-    assert Locale("en").get_vaccine_type("Rabies") == "Rabies"
+    assert Locale("en").get_vaccine_type("Rabies") == "Vaccine type: Rabies"
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_unknown_in_spanish():
     """Locale returns unknown vaccine name unchanged even in Spanish"""
-    assert Locale("es").get_vaccine_type("C6CV") == "C6CV"
+    assert Locale("es").get_vaccine_type("C6CV") == "Dosis: C6CV"
