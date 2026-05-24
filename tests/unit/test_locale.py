@@ -125,7 +125,7 @@ def test_get_vaccine_type_returns_spanish_translation():
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_english():
-    """Locale returns vaccine name unchanged in English"""
+    """Locale returns a formatted vaccine type line in English"""
     assert Locale("en").get_vaccine_type("Rabies") == "Vaccine type: Rabies\n"
 
 
