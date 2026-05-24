@@ -39,7 +39,9 @@ def test_find_pending_vaccinations():
     statement_text = str(compiled_statement)
     assert "status" in statement_text
     assert "name" in statement_text
+    assert "!=" in statement_text or "<>" in statement_text
     assert any(value == "NEW" for value in compiled_statement.params.values())
+    assert any(value == "Deworming" for value in compiled_statement.params.values())
     assert len(pending_vaccinations) == 1
     assert pending_vaccinations[0].id == vaccination.id
     assert pending_vaccinations[0].status == "NEW"
