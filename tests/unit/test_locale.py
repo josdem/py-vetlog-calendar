@@ -33,14 +33,14 @@ def test_return_spanish_pet_info():
     """Test that the pet info is returned in Spanish"""
     locale = Locale(language="es")
     pet_info = locale.get_pet_info(pet="Sora")
-    assert pet_info == "Cita de vacunación para Sora\n"
+    assert pet_info == "Cita de vacunación para Sora"
 
 
 def test_return_english_pet_info():
     """Test that the pet info is returned in English"""
     locale = Locale()
     pet_info = locale.get_pet_info(pet="Sora")
-    assert pet_info == "Vaccination appointment for Sora\n"
+    assert pet_info == "Vaccination appointment for Sora"
 
 
 def test_return_spanish_location():
