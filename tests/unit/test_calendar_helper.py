@@ -72,7 +72,7 @@ def test_get_event_description(pet, vaccination, owner):
         expected_description = {
             "summary": "Jose - Vaccination appointment for Sora",
             "location": "Whatever works for you",
-            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\n\nC6CV\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
             "start": {
                 "dateTime": "2026-05-21T11:00:00-06:00",
                 "timeZone": "UTC",

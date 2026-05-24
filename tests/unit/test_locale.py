@@ -33,14 +33,14 @@ def test_return_spanish_pet_info():
     """Test that the pet info is returned in Spanish"""
     locale = Locale(language="es")
     pet_info = locale.get_pet_info(pet="Sora")
-    assert pet_info == "Cita de vacunación para Sora\n"
+    assert pet_info == "Cita de vacunación para Sora"
 
 
 def test_return_english_pet_info():
     """Test that the pet info is returned in English"""
     locale = Locale()
     pet_info = locale.get_pet_info(pet="Sora")
-    assert pet_info == "Vaccination appointment for Sora\n"
+    assert pet_info == "Vaccination appointment for Sora"
 
 
 def test_return_spanish_location():
@@ -121,14 +121,14 @@ def test_return_english_deworming_description():
 
 def test_get_vaccine_type_returns_spanish_translation():
     """Locale translates Rabies to Rabia in Spanish"""
-    assert Locale("es").get_vaccine_type("Rabies") == "Rabia"
+    assert Locale("es").get_vaccine_type("Rabies") == "Dosis: Rabia\n"
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_english():
-    """Locale returns vaccine name unchanged in English"""
-    assert Locale("en").get_vaccine_type("Rabies") == "Rabies"
+    """Locale returns a formatted vaccine type line in English"""
+    assert Locale("en").get_vaccine_type("Rabies") == "Vaccine type: Rabies\n"
 
 
 def test_get_vaccine_type_returns_name_unchanged_for_unknown_in_spanish():
-    """Locale returns unknown vaccine name unchanged even in Spanish"""
-    assert Locale("es").get_vaccine_type("C6CV") == "C6CV"
+    """Locale returns a formatted vaccine type line in Spanish, even for unknown vaccine names"""
+    assert Locale("es").get_vaccine_type("C6CV") == "Dosis: C6CV\n"

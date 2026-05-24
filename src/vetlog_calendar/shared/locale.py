@@ -34,8 +34,8 @@ class Locale:
     def get_pet_info(self, pet: str) -> str:
         """Get the pet info based on language"""
         if self.language == "es":
-            return f"Cita de vacunación para {pet}\n"
-        return f"Vaccination appointment for {pet}\n"
+            return f"Cita de vacunación para {pet}"
+        return f"Vaccination appointment for {pet}"
 
     def get_event_location(self) -> str:
         """Get the event location based on language"""
@@ -66,7 +66,7 @@ class Locale:
     }
 
     def get_vaccine_type(self, name: str) -> str:
-        """Get the vaccine type, translated if language is Spanish"""
+        """Get the vaccine type line (localized label + translated name), including a trailing newline."""
         if self.language == "es":
-            return self.VACCINE_TRANSLATIONS.get(name, name)
-        return name
+            return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}\n"
+        return f"Vaccine type: {name}\n"
