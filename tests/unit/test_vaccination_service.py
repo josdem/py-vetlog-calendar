@@ -17,7 +17,7 @@ import pytest
 from datetime import datetime
 from unittest.mock import MagicMock
 
-from vetlog_calendar.vaccinations.model import Vaccination, VaccineType
+from vetlog_calendar.vaccinations.model import Vaccination
 from vetlog_calendar.vaccinations.service import VaccinationService
 
 
@@ -35,7 +35,7 @@ def test_get_vaccinations(mock_repo):
         )
     ]
     mock_repo.find_pending_vaccinations.return_value = vaccinations
-    assert service.get_pending_vaccinations(VaccineType.RABIES) == vaccinations
+    assert service.get_pending_vaccinations() == vaccinations
 
 
 def test_get_dewormings(mock_repo):

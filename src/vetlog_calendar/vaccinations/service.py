@@ -14,7 +14,7 @@
 
 from collections.abc import Sequence
 
-from vetlog_calendar.vaccinations.model import Vaccination, VaccineType
+from vetlog_calendar.vaccinations.model import Vaccination
 from vetlog_calendar.vaccinations.repository import VaccinationRepository
 
 
@@ -22,11 +22,11 @@ class VaccinationService:
     def __init__(self, repository: VaccinationRepository):
         self.repository = repository
 
-    def get_pending_vaccinations(self, type: VaccineType) -> Sequence[Vaccination]:
+    def get_pending_vaccinations(self) -> Sequence[Vaccination]:
         """Return pending vaccinations"""
-        return self.repository.find_pending_vaccinations(type)
+        return self.repository.find_pending_vaccinations()
 
-    def get_pending_dewormings(self):
+    def get_pending_dewormings(self) -> Sequence[Vaccination]:
         """Return pending dewormings"""
         return self.repository.find_pending_dewormings()
 

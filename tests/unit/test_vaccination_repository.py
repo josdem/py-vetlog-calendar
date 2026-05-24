@@ -32,7 +32,7 @@ def test_find_pending_vaccinations():
         status="NEW",
     )
     session.exec.return_value.all.return_value = [vaccination]
-    pending_vaccinations = repository.find_pending_vaccinations("Rabies")
+    pending_vaccinations = repository.find_pending_vaccinations()
     session.exec.assert_called_once()
     statement = session.exec.call_args.args[0]
     compiled_statement = statement.compile()
@@ -40,7 +40,6 @@ def test_find_pending_vaccinations():
     assert "status" in statement_text
     assert "name" in statement_text
     assert any(value == "NEW" for value in compiled_statement.params.values())
-    assert any(value == "Rabies" for value in compiled_statement.params.values())
     assert len(pending_vaccinations) == 1
     assert pending_vaccinations[0].id == vaccination.id
     assert pending_vaccinations[0].status == "NEW"
