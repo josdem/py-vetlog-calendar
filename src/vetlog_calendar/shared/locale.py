@@ -68,5 +68,5 @@ class Locale:
     def get_vaccine_type(self, name: str) -> str:
         """Get the vaccine type, translated if language is Spanish"""
         if self.language == "es":
-            return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}"
-        return f"Vaccine type: {name}"
+            return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}\n"
+        return f"Vaccine type: {name}\n"
