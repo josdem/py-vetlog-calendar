@@ -42,3 +42,15 @@ class VaccinationRepository:
         )
         self.session.exec(stmt)
         self.session.commit()
+
+    def delete_rabies_vaccinations_for_pet(self, pet_id: int):
+        stmt = (
+            update(Vaccination)
+            .where(
+                (Vaccination.pet_id == pet_id)
+                & (Vaccination.name == VaccineType.RABIES)
+            )
+            .values(status="PENDING")
+        )
+        self.session.exec(stmt)
+        self.session.commit()
