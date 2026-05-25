@@ -81,7 +81,10 @@ def test_delete_rabies_vaccinations_for_pet():
     statement = session.exec.call_args.args[0]
     compiled_statement = statement.compile()
     statement_text = str(compiled_statement)
+    assert "DELETE FROM" in statement_text
     assert "pet_id" in statement_text
     assert "name" in statement_text
+    assert "status" in statement_text
     assert any(value == pet_id for value in compiled_statement.params.values())
     assert any(value == "Rabies" for value in compiled_statement.params.values())
+    assert any(value == "PENDING" for value in compiled_statement.params.values())

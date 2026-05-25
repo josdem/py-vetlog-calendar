@@ -13,7 +13,7 @@
 #  limitations under the License
 
 from typing import Sequence
-from sqlmodel import Session, select, update
+from sqlmodel import Session, delete, select, update
 
 from vetlog_calendar.vaccinations.model import Vaccination, VaccineType
 
@@ -44,13 +44,10 @@ class VaccinationRepository:
         self.session.commit()
 
     def delete_rabies_vaccinations_for_pet(self, pet_id: int):
-        stmt = (
-            update(Vaccination)
-            .where(
-                (Vaccination.pet_id == pet_id)
-                & (Vaccination.name == VaccineType.RABIES)
-            )
-            .values(status="PENDING")
+        stmt = delete(Vaccination).where(
+            (Vaccination.pet_id == pet_id)
+            & (Vaccination.name == VaccineType.RABIES)
+            & (Vaccination.status == "PENDING")
         )
         self.session.exec(stmt)
         self.session.commit()
