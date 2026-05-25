@@ -120,6 +120,7 @@ def list_vaccinations(
             )
             event = helper.get_vaccination_event()
             calendar.create_event(event)
+            service.delete_rabies_vaccinations_for_pet(pet.id)
             service.update_vaccination_status(vaccination)
             print(event)
 

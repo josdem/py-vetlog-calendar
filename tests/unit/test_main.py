@@ -130,6 +130,7 @@ def test_list_vaccinations(capsys, mock_env_vars):
         )
 
     mock_calendar.create_event.assert_called_once()
+    mock_service.delete_rabies_vaccinations_for_pet.assert_called_once_with(pet().id)
     mock_service.update_vaccination_status.assert_called_once_with(vaccination_instance)
 
     captured = capsys.readouterr()
