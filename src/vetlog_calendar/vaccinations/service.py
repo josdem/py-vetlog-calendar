@@ -33,3 +33,7 @@ class VaccinationService:
     def update_vaccination_status(self, vaccination: Vaccination) -> None:
         """Update vaccination status to PENDING"""
         self.repository.update_vaccination_status(vaccination)
+
+    def delete_rabies_vaccinations_for_pet(self, pet_id: int) -> None:
+        """Delete rabies vaccinations for pet"""
+        self.repository.delete_rabies_vaccinations_for_pet(pet_id)

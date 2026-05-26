@@ -64,3 +64,11 @@ def test_update_vaccination_status(mock_repo):
     )
     service.update_vaccination_status(vaccination)
     mock_repo.update_vaccination_status.assert_called_once_with(vaccination)
+
+
+def test_delete_rabies_vaccinations_for_pet(mock_repo):
+    """Delete rabies vaccinations for pet"""
+    service = VaccinationService(repository=mock_repo)
+    pet_id = 2
+    service.delete_rabies_vaccinations_for_pet(pet_id)
+    mock_repo.delete_rabies_vaccinations_for_pet.assert_called_once_with(pet_id)
