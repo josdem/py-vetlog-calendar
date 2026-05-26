@@ -19,7 +19,7 @@ from .shared.calendar_helper import Helper
 from .shared.database import get_session
 from .users.repository import UserRepository
 from .pets.repository import PetRepository
-from .vaccinations.repository import VaccinationRepository
+from .vaccinations.repository import VaccinationRepository, VaccineType
 from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
 from .shared.config import Settings
@@ -120,7 +120,8 @@ def list_vaccinations(
             )
             event = helper.get_vaccination_event()
             calendar.create_event(event)
-            service.delete_rabies_vaccinations_for_pet(pet.id)
+            if vaccination.name == VaccineType.RABIES:
+                service.delete_rabies_vaccinations_for_pet(pet.id)
             service.update_vaccination_status(vaccination)
             print(event)
 
