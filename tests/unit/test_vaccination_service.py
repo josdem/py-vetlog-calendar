@@ -70,5 +70,5 @@ def test_delete_rabies_vaccinations_for_pet(mock_repo):
     """Delete rabies vaccinations for pet"""
     service = VaccinationService(repository=mock_repo)
     pet_id = 2
-    service.repository.delete_rabies_vaccinations_for_pet(pet_id)
+    service.delete_rabies_vaccinations_for_pet(pet_id)
     mock_repo.delete_rabies_vaccinations_for_pet.assert_called_once_with(pet_id)
