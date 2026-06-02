@@ -43,7 +43,8 @@ def test_read_version_falls_back_to_pyproject_when_package_metadata_is_missing(
     assert _read_version() == expected_version
 
 
-def test_version_check_uses_pyproject_version(capsys):
+def test_version_check_uses_pyproject_version(caplog):
+    caplog.set_level("INFO")
     version_check()
 
-    assert capsys.readouterr().out.strip() == f"vetlog-calendar version {__version__}"
+    assert f"vetlog-calendar version {__version__}" in caplog.text
