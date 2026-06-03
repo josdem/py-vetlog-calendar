@@ -22,13 +22,13 @@ from .pets.repository import PetRepository
 from .vaccinations.repository import VaccinationRepository, VaccineType
 from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
-from .shared.config import Settings
+from .shared.config import get_settings
 from . import __project__, __version__
 
 
 def print_paths():
     """Print paths"""
-    settings = Settings()
+    settings = get_settings()
     print(f"Token path: {settings.TOKEN_PATH}")
     print(f"Credentials path: {settings.CREDENTIALS_PATH}")
 
