@@ -104,6 +104,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/adwibha"><img src="https://avatars.githubusercontent.com/u/138350158?v=4?s=100" width="100px;" alt="Akhil"/><br /><sub><b>Akhil</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=adwibha" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://terminalchai.com/"><img src="https://avatars.githubusercontent.com/u/213856599?v=4?s=100" width="100px;" alt="Terminal Chai"/><br /><sub><b>Terminal Chai</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=terminalchai" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
