@@ -89,7 +89,7 @@ def pet():
     )
 
 
-def test_list_users_prints_users_with_pets_pending_vaccinations(caplog):
+def test_list_users_logs_users_with_pets_pending_vaccinations(caplog):
     """List all users with pet with pending vaccinations"""
 
     caplog.set_level("INFO")
