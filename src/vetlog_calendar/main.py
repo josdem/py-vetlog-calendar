@@ -23,14 +23,17 @@ from .vaccinations.repository import VaccinationRepository, VaccineType
 from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
 from .shared.config import Settings
+from .shared.logger import Logger
 from . import __project__, __version__
+
+logger = Logger(__name__)
 
 
 def print_paths():
     """Print paths"""
     settings = Settings()
-    print(f"Token path: {settings.TOKEN_PATH}")
-    print(f"Credentials path: {settings.CREDENTIALS_PATH}")
+    logger.info("Token path: %s", settings.TOKEN_PATH)
+    logger.info("Credentials path: %s", settings.CREDENTIALS_PATH)
 
 
 def list_users():
@@ -55,8 +58,13 @@ def list_users():
                 if pet.adopter_id is not None
                 else user_repo.find_by_id(pet.user_id)
             )
-            print(
-                f"{owner.username} - {owner.first_name} {owner.last_name} - {owner.email} - Pet: {pet.name} - awaiting vaccination"
+            logger.info(
+                "%s - %s %s - %s - Pet: %s - awaiting vaccination",
+                owner.username,
+                owner.first_name,
+                owner.last_name,
+                owner.email,
+                pet.name,
             )
 
 
@@ -80,8 +88,11 @@ def list_pets():
                     if pet.adopter_id is not None
                     else user_repo.find_by_id(pet.user_id)
                 )
-                print(
-                    f"Owner: {owner.first_name} {owner.last_name}, Pet: {pet.name}, awaiting vaccination"
+                logger.info(
+                    "Owner: %s %s, Pet: %s, awaiting vaccination",
+                    owner.first_name,
+                    owner.last_name,
+                    pet.name,
                 )
 
 
@@ -100,7 +111,7 @@ def list_vaccinations(
 
         # If there are no pending vaccinations, print a message and exit
         if not vaccinations:
-            print("no new vaccinations were found")
+            logger.info("no new vaccinations were found")
             return
 
         pet_repository = PetRepository(session)
@@ -123,7 +134,7 @@ def list_vaccinations(
             if vaccination.name == VaccineType.RABIES:
                 service.delete_rabies_vaccinations_for_pet(pet.id)
             service.update_vaccination_status(vaccination)
-            print(event)
+            logger.info(event)
 
 
 def vaccinations_cli():
@@ -153,7 +164,7 @@ def list_dewormings(
         user_repo = UserRepository(session)
         pet_repo = PetRepository(session)
         required_dewormings = service.get_pending_dewormings()
-        print(f"Found {len(required_dewormings)} pending dewormings")
+        logger.info("Found %s pending dewormings", len(required_dewormings))
 
         for deworming in required_dewormings:
             pet = pet_repo.find_by_id(deworming.pet_id)
@@ -168,7 +179,7 @@ def list_dewormings(
             event = helper.get_deworming_event()
             calendar.create_event(event)
             service.update_vaccination_status(deworming)
-            print(event)
+            logger.info(event)
 
 
 def dewormings_cli():
@@ -187,4 +198,4 @@ def dewormings_cli():
 
 def version_check():
     """Print version info"""
-    print(f"{__project__} version {__version__}")
+    logger.info("%s version %s", __project__, __version__)
