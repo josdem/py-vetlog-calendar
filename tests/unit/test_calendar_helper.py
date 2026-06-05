@@ -131,7 +131,7 @@ def test_get_event_includes_note_for_vetlog_email(pet, vaccination):
         expected_description = {
             "summary": "Jose - Vaccination appointment for Sora",
             "location": "Whatever works for you",
-            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nPlease follow up by phone.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nNote: Please follow up by phone.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
             "start": {
                 "dateTime": "2026-05-21T11:00:00-06:00",
                 "timeZone": "UTC",
