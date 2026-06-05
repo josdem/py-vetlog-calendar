@@ -22,8 +22,9 @@ from .pets.repository import PetRepository
 from .vaccinations.repository import VaccinationRepository, VaccineType
 from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
-from .shared.config import Settings
+from .shared.config import get_settings
 from .shared.logger import Logger
+
 from . import __project__, __version__
 
 logger = Logger(__name__)
@@ -31,7 +32,7 @@ logger = Logger(__name__)
 
 def print_paths():
     """Print paths"""
-    settings = Settings()
+    settings = get_settings()
     logger.info("Token path: %s", settings.TOKEN_PATH)
     logger.info("Credentials path: %s", settings.CREDENTIALS_PATH)
 
