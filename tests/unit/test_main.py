@@ -89,9 +89,10 @@ def pet():
     )
 
 
-def test_list_users_prints_users_with_pets_pending_vaccinations(capsys):
+def test_list_users_logs_users_with_pets_pending_vaccinations(caplog):
     """List all users with pet with pending vaccinations"""
 
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
 
     with (
@@ -105,15 +106,15 @@ def test_list_users_prints_users_with_pets_pending_vaccinations(capsys):
     ):
         main.list_users()
 
-    captured = capsys.readouterr()
     expected_output = (
         "josdem - Jose Morales - contact@josdem.io - Pet: Sora - awaiting vaccination"
     )
-    assert expected_output in captured.out
+    assert expected_output in caplog.text
 
 
-def test_list_vaccinations(capsys, mock_env_vars):
+def test_list_vaccinations(caplog, mock_env_vars):
     """List pending vaccinations"""
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
     mock_calendar = MagicMock()
     mock_service = MagicMock()
@@ -133,14 +134,14 @@ def test_list_vaccinations(capsys, mock_env_vars):
     mock_service.delete_rabies_vaccinations_for_pet.assert_called_once_with(pet().id)
     mock_service.update_vaccination_status.assert_called_once_with(vaccination_instance)
 
-    captured = capsys.readouterr()
     expected_description = "Jose - Vaccination appointment for Sora"
-    assert expected_description in captured.out
+    assert expected_description in caplog.text
 
 
-def test_list_vaccinations_no_new_vaccinations_prints_message(capsys):
+def test_list_vaccinations_no_new_vaccinations_prints_message(caplog):
     """Show message when there are no NEW vaccinations to process"""
 
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
     mock_calendar = MagicMock()
     mock_service = MagicMock()
@@ -158,13 +159,13 @@ def test_list_vaccinations_no_new_vaccinations_prints_message(capsys):
     mock_calendar.create_event.assert_not_called()
     mock_service.update_vaccination_status.assert_not_called()
 
-    captured = capsys.readouterr()
-    assert captured.out.strip() == "no new vaccinations were found"
+    assert "no new vaccinations were found" in caplog.text
 
 
-def test_list_vaccinations_handles_pet_has_owner(capsys):
+def test_list_vaccinations_handles_pet_has_owner(caplog):
     """List pending vaccinations"""
 
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
     mock_calendar = MagicMock()
 
@@ -180,14 +181,14 @@ def test_list_vaccinations_handles_pet_has_owner(capsys):
         main.list_vaccinations(calendar=mock_calendar, language="en")
 
     mock_calendar.create_event.assert_called_once()
-    captured = capsys.readouterr()
     expected_description = "Jose - Vaccination appointment for Sora"
-    assert expected_description in captured.out
+    assert expected_description in caplog.text
 
 
-def test_list_vaccinations_handles_pet_has_adopter(capsys):
+def test_list_vaccinations_handles_pet_has_adopter(caplog):
     """List pending vaccinations"""
 
+    caplog.set_level("INFO")
     adopter = User(
         id=2,
         username="sofiaD",
@@ -227,9 +228,8 @@ def test_list_vaccinations_handles_pet_has_adopter(capsys):
 
     mock_find_user_by_id.assert_called_with(pet.adopter_id)
     mock_calendar.create_event.assert_called_once()
-    captured = capsys.readouterr()
     expected_description = "Sofia - Vaccination appointment for Sora"
-    assert expected_description in captured.out
+    assert expected_description in caplog.text
 
 
 def test_list_dewormings_processes_inactive_pet():
@@ -304,9 +304,10 @@ def test_list_dewormings_processes_deceased_pet():
     mock_service.update_vaccination_status.assert_called_once_with(deworming_instance)
 
 
-def test_list_pets_prints_pending_vaccinations(capsys):
+def test_list_pets_prints_pending_vaccinations(caplog):
     """List all owners/adopters with pets waiting for vaccination"""
 
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
 
     with (
@@ -320,14 +321,14 @@ def test_list_pets_prints_pending_vaccinations(capsys):
     ):
         main.list_pets()
 
-    captured = capsys.readouterr()
     expected_output = "Owner: Jose Morales, Pet: Sora, awaiting vaccination"
-    assert expected_output in captured.out
+    assert expected_output in caplog.text
 
 
-def test_prints_pending_dewormings(capsys):
+def test_prints_pending_dewormings(caplog):
     """List pets with pending dewormings"""
 
+    caplog.set_level("INFO")
     mock_session_cm = MagicMock()
     mock_calendar = MagicMock()
 
@@ -342,9 +343,8 @@ def test_prints_pending_dewormings(capsys):
     ):
         main.list_dewormings(calendar=mock_calendar, language="en")
 
-    captured = capsys.readouterr()
     expected_output = "Jose - Deworming appointment for Sora"
-    assert expected_output in captured.out
+    assert expected_output in caplog.text
 
 
 def test_list_dewormings_calls_update_vaccination_status(mock_env_vars):
