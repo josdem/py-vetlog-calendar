@@ -114,9 +114,9 @@ def test_get_event_includes_note_for_vetlog_email(pet, vaccination):
     vetlog_owner = User(
         id=8,
         username="vetloguser",
-        first_name="Vet",
-        last_name="Log",
-        mobile="9876543210",
+        first_name="Jose",
+        last_name="Morales",
+        mobile="1234567890",
         email="support@vetlog.org",
     )
     mock_settings = MagicMock()
@@ -128,9 +128,23 @@ def test_get_event_includes_note_for_vetlog_email(pet, vaccination):
         helper = Helper(
             pet=pet, vaccination=vaccination, owner=vetlog_owner, language="en"
         )
-        event = helper.get_vaccination_event()
-        assert "note" in event
-        assert event["note"] == helper.locale.get_description_note()
+        expected_description = {
+            "summary": "Jose - Vaccination appointment for Sora",
+            "location": "Whatever works for you",
+            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nNote: Please follow up by phone.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+            "start": {
+                "dateTime": "2026-05-21T11:00:00-06:00",
+                "timeZone": "UTC",
+            },
+            "end": {
+                "dateTime": "2026-05-21T11:15:00-06:00",
+                "timeZone": "UTC",
+            },
+            "attendees": [
+                {"email": "support@vetlog.org"},
+            ],
+        }
+        assert helper.get_vaccination_event() == expected_description
 
 
 def test_get_event_excludes_note_for_non_vetlog_email(pet, vaccination, owner):
@@ -202,9 +216,9 @@ def test_get_deworming_event_includes_note_for_vetlog_email(pet, vaccination):
     vetlog_owner = User(
         id=8,
         username="vetloguser",
-        first_name="Vet",
-        last_name="Log",
-        mobile="9876543210",
+        first_name="Jose",
+        last_name="Morales",
+        mobile="1234567890",
         email="support@vetlog.org",
     )
     mock_settings = MagicMock()
@@ -216,9 +230,21 @@ def test_get_deworming_event_includes_note_for_vetlog_email(pet, vaccination):
         helper = Helper(
             pet=pet, vaccination=vaccination, owner=vetlog_owner, language="en"
         )
-        event = helper.get_deworming_event()
-        assert "note" in event
-        assert event["note"] == helper.locale.get_description_note()
+        expected_description = {
+            "summary": "Jose - Deworming appointment for Sora",
+            "location": "Whatever works for you",
+            "description": "Jose Morales\n1234567890\n\nPlease validate deworming appointment for pet Sora since the last deworming was: 2025-05-26\n\nNote: Please follow up by phone.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/",
+            "start": {
+                "dateTime": "2026-05-21T12:00:00-06:00",
+                "timeZone": "UTC",
+            },
+            "end": {
+                "dateTime": "2026-05-21T12:15:00-06:00",
+                "timeZone": "UTC",
+            },
+            "attendees": [],
+        }
+        assert helper.get_deworming_event() == expected_description
 
 
 def test_get_deworming_event_excludes_note_for_non_vetlog_email(

@@ -52,8 +52,8 @@ class Locale:
     def get_description_note(self) -> str:
         """Get the description note based on language"""
         if self.language == "es":
-            return "Favor de dar seguimiento usando WhatsApp."
-        return "Please follow up by phone."
+            return "Nota: Favor de dar seguimiento usando WhatsApp."
+        return "Note: Please follow up by phone."
 
     def get_deworming_description(self, pet: str, date: str) -> str:
         """Get the deworming description based on language"""
