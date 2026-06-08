@@ -30,9 +30,10 @@ class PetRepository:
         return self.session.exec(select(Pet).where(Pet.id == id)).one_or_none()
     
     def find_all_pet_logs(self, start_date: datetime, end_date: datetime) -> Sequence[PetLog]:
-        statement = select(PetLog).where(
-            PetLog.log_date >= start_date,
-            PetLog.log_date <= end_date
+        statement = (
+            select(PetLog)
+            .where(PetLog.date_created >= start_date, PetLog.date_created <= end_date)
+            .order_by(PetLog.date_created)
         )
         results = self.session.exec(statement)
         return results.all()

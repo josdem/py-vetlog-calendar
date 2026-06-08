@@ -5,8 +5,7 @@ import pytest
 from datetime import datetime
 from sqlmodel import Session, SQLModel, create_engine
 
-from vetlog_calendar.pets.model import PetLog
-from vetlog_calendar.pets.model import Pet
+from vetlog_calendar.pets.model import PetLog ,Pet, Breed
 from vetlog_calendar.pets.repository import PetRepository # Assuming this is your path
 from vetlog_calendar.pets.service import PetService
 
@@ -21,10 +20,25 @@ def test_get_logs_by_date_range_success(session: Session):
     repo = PetRepository(session)
     service = PetService(repo)
     
-    #medical logs
-    log1 = PetLog(pet_id=1, log_date=datetime(2026, 6, 1), description="Routine Checkup", veterinarian="Dr. Joe")
-    log2 = PetLog(pet_id=1, log_date=datetime(2026, 6, 5), description="Rabies Vaccination", veterinarian="Dr. Joe")
-    log3 = PetLog(pet_id=1, log_date=datetime(2026, 6, 15), description="Future Appointment Log", veterinarian="Dr. Joe")
+    breed = Breed(slug="mixed", type="Mixed")
+    session.add(breed)
+    session.commit()
+    session.refresh(breed)
+    
+    pet = Pet(
+        name="Fido",
+        birth_date=datetime(2020, 1, 1),
+        breed_id=breed.id,
+        status="ACTIVE",
+        uuid="test-uuid",
+    )
+    session.add(pet)
+    session.commit()
+    session.refresh(pet)
+
+    log1 = PetLog(pet_id=pet.id, uuid="uuid-1", date_created=datetime(2026, 6, 1), diagnosis="Routine Checkup", vet_name="Dr. Joe")
+    log2 = PetLog(pet_id=pet.id, uuid="uuid-2", date_created=datetime(2026, 6, 5), diagnosis="Rabies Vaccination", vet_name="Dr. Joe")
+    log3 = PetLog(pet_id=pet.id, uuid="uuid-3", date_created=datetime(2026, 6, 15), diagnosis="Future Appointment Log", vet_name="Dr. Joe")
     
     session.add_all([log1, log2, log3])
     session.commit()
@@ -34,8 +48,8 @@ def test_get_logs_by_date_range_success(session: Session):
     results = service.get_logs_by_date_range(start, end)
 
     assert len(results) == 2
-    assert results[0].description == "Routine Checkup"
-    assert results[1].description == "Rabies Vaccination"
+    assert results[0].diagnosis == "Routine Checkup"
+    assert results[1].diagnosis == "Rabies Vaccination"
 
 def test_get_logs_by_invalid_date_range(session: Session):
     repo = PetRepository(session)
