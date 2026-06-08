@@ -13,7 +13,7 @@
 #  limitations under the License
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional ,ClassVar
 from decimal import Decimal
 from sqlmodel import Field, SQLModel
 
@@ -24,6 +24,19 @@ class Breed(SQLModel, table=True):
     type: str
     date_created: datetime = Field(default_factory=datetime.now)
 
+class PetLog(SQLModel, table=True):
+    __tablename__: ClassVar[str] = "pet_log"
+    
+    id: Optional[int] = Field(default=None, primary_key=True)
+    date_created: datetime = Field(default_factory=datetime.now)
+    diagnosis: Optional[str] = Field(default=None, max_length=1000)
+    medicine: Optional[str] = Field(default=None, max_length=1000)
+    signs: Optional[str] = Field(default=None, max_length=1000)
+    vet_name: Optional[str] = Field(default=None, max_length=255)
+    pet_id: Optional[int] = Field(default=None, foreign_key="pet.id")
+    uuid: str = Field(max_length=255)
+    has_attachment: Optional[bool] = Field(default=False)
+    username: str = Field(default="system", max_length=255)
 
 class Pet(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

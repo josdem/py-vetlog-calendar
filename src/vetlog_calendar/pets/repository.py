@@ -14,8 +14,9 @@
 
 from typing import Sequence
 from sqlmodel import Session, select
-
+from datetime import datetime
 from vetlog_calendar.pets.model import Pet
+from vetlog_calendar.pets.model import PetLog
 
 
 class PetRepository:
@@ -27,3 +28,12 @@ class PetRepository:
 
     def find_by_id(self, id: int) -> Pet | None:
         return self.session.exec(select(Pet).where(Pet.id == id)).one_or_none()
+    
+    def find_all_pet_logs(self, start_date: datetime, end_date: datetime) -> Sequence[PetLog]:
+        statement = (
+            select(PetLog)
+            .where(PetLog.date_created >= start_date, PetLog.date_created <= end_date)
+            .order_by(PetLog.date_created)
+        )
+        results = self.session.exec(statement)
+        return results.all()
