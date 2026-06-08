@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 import os.path
+import datetime
 
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -52,3 +53,63 @@ class Calendar:
 
         except HttpError as error:
             print(f"An error occurred: {error}")
+
+    def list_surgeries(self):
+        print("Listing surgeries from the previous 7 days")
+        settings = Settings()
+        token_path = settings.TOKEN_PATH
+        credentials_path = settings.CREDENTIALS_PATH
+        creds = None
+
+        if os.path.exists(token_path):
+            creds = Credentials.from_authorized_user_file(token_path, SCOPES)
+
+        if not creds or not creds.valid:
+            print("No valid credentials")
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    credentials_path, SCOPES
+                )
+                creds = flow.run_local_server(port=0)
+
+            with open(token_path, "w") as token:
+                token.write(creds.to_json())
+
+        try:
+            service = build("calendar", "v3", credentials=creds)
+
+            now = datetime.datetime.now(datetime.UTC)
+            seven_days_ago = now - datetime.timedelta(days=7)
+
+            events_result = (
+                service.events()
+                .list(
+                    calendarId="primary",
+                    timeMin=seven_days_ago.isoformat(),
+                    timeMax=now.isoformat(),
+                    singleEvents=True,
+                    orderBy="startTime",
+                )
+                .execute()
+            )
+
+            events = events_result.get("items", [])
+
+            surgeries = [
+                event
+                for event in events
+                if self._is_surgery(event.get("summary", ""))
+            ]
+
+            for event in surgeries:
+                start = event["start"].get("dateTime", event["start"].get("date"))
+                print(start, event["summary"])
+
+        except HttpError as error:
+            print(f"An error occurred: {error}")
+
+    def _is_surgery(self, title: str) -> bool:
+        title = title.lower()
+        return "surgery" in title or "cirugia" in title or "cirugía" in title
