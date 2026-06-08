@@ -24,6 +24,16 @@ class Breed(SQLModel, table=True):
     type: str
     date_created: datetime = Field(default_factory=datetime.now)
 
+class PetLog(SQLModel, table=True):
+    __tablename__: str = "pet_log"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    pet_id: int = Field(foreign_key="pet.id")
+    log_date: datetime = Field(default_factory=datetime.now)
+    description: str
+    veterinarian: str
+    notes: Optional[str] = Field(default=None)
+    date_created: datetime = Field(default_factory=datetime.now)
 
 class Pet(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

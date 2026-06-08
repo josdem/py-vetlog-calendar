@@ -36,3 +36,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = ["src"]
