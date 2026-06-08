@@ -12,10 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License
 
-from vetlog_calendar.pets.model import Pet , PetLog
+from vetlog_calendar.pets.model import Pet, PetLog
 from vetlog_calendar.pets.repository import PetRepository
 from datetime import datetime
 from typing import Sequence
+
 
 class PetService:
     def __init__(self, repository: PetRepository) -> None:
@@ -28,10 +29,12 @@ class PetService:
     def get_by_id(self, id: int) -> Pet | None:
         """Return pet by id"""
         return self.repository.find_by_id(id)
-    def get_logs_by_date_range(self, start_date: datetime, end_date: datetime) -> Sequence[PetLog]:
+
+    def get_logs_by_date_range(
+        self, start_date: datetime, end_date: datetime
+    ) -> Sequence[PetLog]:
         """Return petlog"""
         if start_date > end_date:
             raise ValueError("Start date cannot be after end date.")
-            
+
         return self.repository.find_all_pet_logs(start_date, end_date)
-    
