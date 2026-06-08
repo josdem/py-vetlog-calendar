@@ -30,10 +30,6 @@ class PetRepository:
         return self.session.exec(select(Pet).where(Pet.id == id)).one_or_none()
     
     def find_all_pet_logs(self, start_date: datetime, end_date: datetime) -> Sequence[PetLog]:
-        """
-        Fetches all pet medical logs from the database within the given date range.
-        Includes boundaries (inclusive search).
-        """
         statement = select(PetLog).where(
             PetLog.log_date >= start_date,
             PetLog.log_date <= end_date

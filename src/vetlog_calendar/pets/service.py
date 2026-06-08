@@ -29,9 +29,7 @@ class PetService:
         """Return pet by id"""
         return self.repository.find_by_id(id)
     def get_logs_by_date_range(self, start_date: datetime, end_date: datetime) -> Sequence[PetLog]:
-        """
-        Validates input date criteria and requests logs from the database repository.
-        """
+        """Return petlog"""
         if start_date > end_date:
             raise ValueError("Start date cannot be after end date.")
             
