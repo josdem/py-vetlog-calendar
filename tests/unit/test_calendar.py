@@ -148,3 +148,77 @@ def test_create_event_handles_http_error(event, capsys):
 
     captured = capsys.readouterr()
     assert "An error occurred" in captured.out
+
+
+def test_is_surgery_detects_english_surgery():
+    """Detect surgery events in English"""
+    assert Calendar()._is_surgery("Jose - Surgery appointment for Sora")
+
+
+def test_is_surgery_detects_spanish_cirugia():
+    """Detect surgery events in Spanish without accent"""
+    assert Calendar()._is_surgery("Jose - Cirugia appointment for Sora")
+
+
+def test_is_surgery_detects_spanish_cirugia_with_accent():
+    """Detect surgery events in Spanish with accent"""
+    assert Calendar()._is_surgery("Jose - Cirugía appointment for Sora")
+
+
+def test_is_surgery_ignores_non_surgery_event():
+    """Ignore events that are not surgeries"""
+    assert not Calendar()._is_surgery("Jose - Vaccination appointment for Sora")
+
+
+def test_list_surgeries_with_valid_credentials(capsys):
+    """List surgery events from the previous 7 days"""
+    mock_creds = MagicMock()
+    mock_creds.valid = True
+
+    mock_service = MagicMock()
+    mock_events = mock_service.events.return_value
+    mock_list = mock_events.list
+    mock_list.return_value.execute.return_value = {
+        "items": [
+            {
+                "summary": "Jose - Surgery appointment for Sora",
+                "start": {"dateTime": "2026-06-01T11:00:00-06:00"},
+            },
+            {
+                "summary": "Jose - Cita de Cirugia para Luna",
+                "start": {"dateTime": "2026-06-02T11:00:00-06:00"},
+            },
+            {
+                "summary": "Jose - Vaccination appointment for Milo",
+                "start": {"dateTime": "2026-06-03T11:00:00-06:00"},
+            },
+        ]
+    }
+
+    with (
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
+        patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=True),
+        patch(
+            "vetlog_calendar.shared.calendar.Credentials.from_authorized_user_file",
+            return_value=mock_creds,
+        ),
+        patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
+    ):
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+
+        Calendar().list_surgeries()
+
+    captured = capsys.readouterr()
+
+    assert "Jose - Surgery appointment for Sora" in captured.out
+    assert "Jose - Cita de Cirugia para Luna" in captured.out
+    assert "Jose - Vaccination appointment for Milo" not in captured.out
+
+    mock_list.assert_called_once()
+    call_kwargs = mock_list.call_args.kwargs
+    assert call_kwargs["calendarId"] == "primary"
+    assert call_kwargs["singleEvents"] is True
+    assert call_kwargs["orderBy"] == "startTime"
+    assert "timeMin" in call_kwargs
+    assert "timeMax" in call_kwargs
