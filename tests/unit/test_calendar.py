@@ -149,6 +149,7 @@ def test_create_event_handles_http_error(event, capsys):
     captured = capsys.readouterr()
     assert "An error occurred" in captured.out
 
+
 def test_is_surgery_detects_english_surgery():
     """Detect surgery events in English"""
     assert Calendar()._is_surgery("Jose - Surgery appointment for Sora")
@@ -214,7 +215,7 @@ def test_list_surgeries_with_valid_credentials(capsys):
     assert "Jose - Cita de Cirugia para Luna" in captured.out
     assert "Jose - Vaccination appointment for Milo" not in captured.out
 
-    mock_list.assert_called_once()   
+    mock_list.assert_called_once()
     call_kwargs = mock_list.call_args.kwargs
     assert call_kwargs["calendarId"] == "primary"
     assert call_kwargs["singleEvents"] is True
