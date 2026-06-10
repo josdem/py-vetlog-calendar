@@ -12,11 +12,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from unittest.mock import MagicMock, mock_open, patch
-
+import os
 import pytest
 
+from unittest.mock import MagicMock, mock_open, patch
+
 from vetlog_calendar.shared.calendar import Calendar
+
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(
+        os.environ,
+        {
+            "DB_HOST": "localhost",
+            "DB_NAME": "vetlog",
+            "DB_USER": "vetlogUser",
+            "DB_PASSWORD": "vetlogDB",
+            "TOKEN_PATH": "token_path_value/token.json",
+            "CREDENTIALS_PATH": "token_path_value/credentials.json",
+            "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
+        },
+    ):
+        yield
 
 
 @pytest.fixture
@@ -150,27 +168,27 @@ def test_create_event_handles_http_error(event, capsys):
     assert "An error occurred" in captured.out
 
 
-def test_is_surgery_detects_english_surgery():
+def test_is_surgery_detects_english_surgery(mock_env_vars):
     """Detect surgery events in English"""
     assert Calendar()._is_surgery("Jose - Surgery appointment for Sora")
 
 
-def test_is_surgery_detects_spanish_cirugia():
+def test_is_surgery_detects_spanish_cirugia(mock_env_vars):
     """Detect surgery events in Spanish without accent"""
     assert Calendar()._is_surgery("Jose - Cirugia appointment for Sora")
 
 
-def test_is_surgery_detects_spanish_cirugia_with_accent():
+def test_is_surgery_detects_spanish_cirugia_with_accent(mock_env_vars):
     """Detect surgery events in Spanish with accent"""
     assert Calendar()._is_surgery("Jose - Cirugía appointment for Sora")
 
 
-def test_is_surgery_ignores_non_surgery_event():
+def test_is_surgery_ignores_non_surgery_event(mock_env_vars):
     """Ignore events that are not surgeries"""
     assert not Calendar()._is_surgery("Jose - Vaccination appointment for Sora")
 
 
-def test_list_surgeries_with_valid_credentials(capsys):
+def test_list_surgeries_with_valid_credentials(capsys, mock_env_vars):
     """List surgery events from the previous 7 days"""
     mock_creds = MagicMock()
     mock_creds.valid = True
