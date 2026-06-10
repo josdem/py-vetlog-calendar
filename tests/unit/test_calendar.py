@@ -38,7 +38,7 @@ def test_create_event_with_valid_credentials(event):
     mock_service = MagicMock()
 
     with (
-        patch("vetlog_calendar.shared.calendar.Settings") as mock_settings_cls,
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
         patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=True),
         patch(
             "vetlog_calendar.shared.calendar.Credentials.from_authorized_user_file",
@@ -46,8 +46,8 @@ def test_create_event_with_valid_credentials(event):
         ),
         patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
     ):
-        mock_settings_cls.return_value.TOKEN_PATH = "/tmp/token.json"
-        mock_settings_cls.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
         Calendar().create_event(event)
 
@@ -67,7 +67,7 @@ def test_create_event_refreshes_expired_credentials(event):
     mock_service = MagicMock()
 
     with (
-        patch("vetlog_calendar.shared.calendar.Settings") as mock_settings_cls,
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
         patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=True),
         patch(
             "vetlog_calendar.shared.calendar.Credentials.from_authorized_user_file",
@@ -77,8 +77,8 @@ def test_create_event_refreshes_expired_credentials(event):
         patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
         patch("builtins.open", mock_open()),
     ):
-        mock_settings_cls.return_value.TOKEN_PATH = "/tmp/token.json"
-        mock_settings_cls.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
         Calendar().create_event(event)
 
@@ -97,7 +97,7 @@ def test_create_event_runs_oauth_flow_when_no_token(event):
     mock_service = MagicMock()
 
     with (
-        patch("vetlog_calendar.shared.calendar.Settings") as mock_settings_cls,
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
         patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=False),
         patch(
             "vetlog_calendar.shared.calendar.InstalledAppFlow.from_client_secrets_file",
@@ -106,8 +106,8 @@ def test_create_event_runs_oauth_flow_when_no_token(event):
         patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
         patch("builtins.open", mock_open()),
     ):
-        mock_settings_cls.return_value.TOKEN_PATH = "/tmp/token.json"
-        mock_settings_cls.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
         Calendar().create_event(event)
 
@@ -133,7 +133,7 @@ def test_create_event_handles_http_error(event, capsys):
     mock_service.events().insert().execute.side_effect = http_error
 
     with (
-        patch("vetlog_calendar.shared.calendar.Settings") as mock_settings_cls,
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
         patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=True),
         patch(
             "vetlog_calendar.shared.calendar.Credentials.from_authorized_user_file",
@@ -141,8 +141,8 @@ def test_create_event_handles_http_error(event, capsys):
         ),
         patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
     ):
-        mock_settings_cls.return_value.TOKEN_PATH = "/tmp/token.json"
-        mock_settings_cls.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
         Calendar().create_event(event)
 
@@ -196,7 +196,7 @@ def test_list_surgeries_with_valid_credentials(capsys):
     }
 
     with (
-        patch("vetlog_calendar.shared.calendar.Settings") as mock_settings_cls,
+        patch("vetlog_calendar.shared.calendar.get_settings") as mock_get_settings,
         patch("vetlog_calendar.shared.calendar.os.path.exists", return_value=True),
         patch(
             "vetlog_calendar.shared.calendar.Credentials.from_authorized_user_file",
@@ -204,8 +204,8 @@ def test_list_surgeries_with_valid_credentials(capsys):
         ),
         patch("vetlog_calendar.shared.calendar.build", return_value=mock_service),
     ):
-        mock_settings_cls.return_value.TOKEN_PATH = "/tmp/token.json"
-        mock_settings_cls.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
+        mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
+        mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
         Calendar().list_surgeries()
 
