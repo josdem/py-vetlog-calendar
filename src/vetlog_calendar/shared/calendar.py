@@ -21,14 +21,14 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .config import Settings
+from .config import Settings, get_settings
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
 
 class Calendar:
     def __init__(self):
-        self.settings = Settings()
+        self.settings = get_settings()
         self.token_path = self.settings.TOKEN_PATH
         self.credentials_path = self.settings.CREDENTIALS_PATH
         self.creds = None
