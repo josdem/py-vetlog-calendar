@@ -32,6 +32,8 @@ class Calendar:
         self.token_path = self.settings.TOKEN_PATH
         self.credentials_path = self.settings.CREDENTIALS_PATH
         self.creds = None
+
+    def _ensure_credentials(self):
         if os.path.exists(self.token_path):
             self.creds = Credentials.from_authorized_user_file(self.token_path, SCOPES)
         if not self.creds or not self.creds.valid:
@@ -49,6 +51,7 @@ class Calendar:
 
     def create_event(self, event: dict):
         print("Creating event")
+        self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
             service.events().insert(calendarId="primary", body=event).execute()
@@ -58,6 +61,7 @@ class Calendar:
 
     def list_surgeries(self):
         print("Listing surgeries from the previous 7 days")
+        self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
 
