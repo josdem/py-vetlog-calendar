@@ -21,7 +21,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .config import Settings, get_settings
+from .config import get_settings
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
