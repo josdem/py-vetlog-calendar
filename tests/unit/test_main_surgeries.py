@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from datetime import datetime
 from vetlog_calendar.main import list_surgeries_without_logs
 from vetlog_calendar.pets.model import PetLog
 
@@ -8,12 +7,22 @@ from vetlog_calendar.pets.model import PetLog
 @pytest.fixture
 def mock_surgery_events():
     return [
-        {"summary": "Jose - Surgery for Sora", "pet_id": 1, "start": {"dateTime": "2026-06-01T11:00:00-06:00"}},
-        {"summary": "Jose - Cirugía para Luna", "pet_id": 2, "start": {"dateTime": "2026-06-02T11:00:00-06:00"}},
+        {
+            "summary": "Jose - Surgery for Sora",
+            "pet_id": 1,
+            "start": {"dateTime": "2026-06-01T11:00:00-06:00"},
+        },
+        {
+            "summary": "Jose - Cirugía para Luna",
+            "pet_id": 2,
+            "start": {"dateTime": "2026-06-02T11:00:00-06:00"},
+        },
     ]
 
 
-def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(mock_surgery_events):
+def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
+    mock_surgery_events,
+):
     """Surgeries with no medical logs in the period are listed"""
     mock_calendar = MagicMock()
     mock_calendar.list_surgeries.return_value = mock_surgery_events

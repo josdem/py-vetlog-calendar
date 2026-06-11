@@ -79,9 +79,6 @@ class Calendar:
             surgeries = [
                 event for event in events if self._is_surgery(event.get("summary", ""))
             ]
-            for event in surgeries:
-                start = event["start"].get("dateTime", event["start"].get("date"))
-                print(start, event["summary"])
             return surgeries
         except HttpError as error:
             print(f"An error occurred: {error}")
