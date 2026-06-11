@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+from . import __project__, __version__
 import argparse
 
 
@@ -24,8 +24,12 @@ from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
 from .shared.config import get_settings
 from .shared.logger import Logger
+from datetime import datetime, timedelta
+from .pets.service import PetService
 
-from . import __project__, __version__
+logger = Logger(__name__)
+
+
 
 logger = Logger(__name__)
 
@@ -195,6 +199,38 @@ def dewormings_cli():
     )
     args = parser.parse_args()
     list_dewormings(language=args.language)
+
+
+def list_surgeries_without_logs(calendar: Calendar = None, service: PetService = None):
+    """List surgeries from last 7 days without medical logs"""
+    if calendar is None:
+        calendar = Calendar()
+
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=7)
+
+    surgeries = calendar.list_surgeries()
+
+    with get_session() as session:
+        if service is None:
+            pet_repo = PetRepository(session)
+            service = PetService(pet_repo)
+
+        logs = service.get_logs_by_date_range(start_date, end_date)
+        log_pet_ids = {log.pet_id for log in logs}
+
+    surgeries_without_logs = [
+        s for s in surgeries if s.get("pet_id") not in log_pet_ids
+    ]
+
+    logger.info("Found %s surgeries without medical logs", len(surgeries_without_logs))
+    for surgery in surgeries_without_logs:
+        logger.info(surgery)
+
+
+def surgeries_cli():
+    """CLI entry point for surgeries without logs"""
+    list_surgeries_without_logs()
 
 
 def version_check():

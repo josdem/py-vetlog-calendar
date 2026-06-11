@@ -45,7 +45,6 @@ class Calendar:
                     self.credentials_path, SCOPES
                 )
                 self.creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
             with open(self.token_path, "w") as token:
                 token.write(self.creds.to_json())
 
@@ -55,19 +54,16 @@ class Calendar:
         try:
             service = build("calendar", "v3", credentials=self.creds)
             service.events().insert(calendarId="primary", body=event).execute()
-
         except HttpError as error:
             print(f"An error occurred: {error}")
 
-    def list_surgeries(self):
+    def list_surgeries(self) -> list:
         print("Listing surgeries from the previous 7 days")
         self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
-
             now = datetime.datetime.now(datetime.UTC)
             seven_days_ago = now - datetime.timedelta(days=7)
-
             events_result = (
                 service.events()
                 .list(
@@ -79,19 +75,14 @@ class Calendar:
                 )
                 .execute()
             )
-
             events = events_result.get("items", [])
-
             surgeries = [
                 event for event in events if self._is_surgery(event.get("summary", ""))
             ]
-
-            for event in surgeries:
-                start = event["start"].get("dateTime", event["start"].get("date"))
-                print(start, event["summary"])
-
+            return surgeries
         except HttpError as error:
             print(f"An error occurred: {error}")
+            return []
 
     def _is_surgery(self, title: str) -> bool:
         title = title.lower()
