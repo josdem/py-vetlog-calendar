@@ -383,8 +383,16 @@ def test_list_deworming_delegates_to_list_dewormings():
 def test_list_surgeries_without_logs(mocker):
     mock_calendar = mocker.Mock()
     mock_calendar.list_surgeries.return_value = [
-        {"summary": "Jose - Surgery for Sora", "pet_id": 1, "start": {"dateTime": "2026-06-01T11:00:00-06:00"}},
-        {"summary": "Jose - Cirugía para Luna", "pet_id": 2, "start": {"dateTime": "2026-06-02T11:00:00-06:00"}},
+        {
+            "summary": "Jose - Surgery for Sora",
+            "pet_id": 1,
+            "start": {"dateTime": "2026-06-01T11:00:00-06:00"},
+        },
+        {
+            "summary": "Jose - Cirugía para Luna",
+            "pet_id": 2,
+            "start": {"dateTime": "2026-06-02T11:00:00-06:00"},
+        },
     ]
 
     mock_service = mocker.Mock()
@@ -395,6 +403,7 @@ def test_list_surgeries_without_logs(mocker):
     mocker.patch("vetlog_calendar.main.get_session")
 
     from vetlog_calendar.main import list_surgeries_without_logs
+
     list_surgeries_without_logs()
 
     mock_calendar.list_surgeries.assert_called_once()

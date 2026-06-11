@@ -188,7 +188,7 @@ def test_is_surgery_ignores_non_surgery_event(mock_env_vars):
     assert not Calendar()._is_surgery("Jose - Vaccination appointment for Sora")
 
 
-def test_list_surgeries_with_valid_credentials(capsys, mock_env_vars):
+def test_list_surgeries_with_valid_credentials(mock_env_vars):
     """List surgery events from the previous 7 days"""
     mock_creds = MagicMock()
     mock_creds.valid = True
@@ -225,14 +225,12 @@ def test_list_surgeries_with_valid_credentials(capsys, mock_env_vars):
         mock_get_settings.return_value.TOKEN_PATH = "/tmp/token.json"
         mock_get_settings.return_value.CREDENTIALS_PATH = "/tmp/credentials.json"
 
-        Calendar().list_surgeries()
+        result = Calendar().list_surgeries()
 
-    captured = capsys.readouterr()
-
-    assert "Jose - Surgery appointment for Sora" in captured.out
-    assert "Jose - Cita de Cirugia para Luna" in captured.out
-    assert "Jose - Vaccination appointment for Milo" not in captured.out
-
+    assert len(result) == 2
+    assert any("Surgery appointment for Sora" in e["summary"] for e in result)
+    assert any("Cirugia para Luna" in e["summary"] for e in result)
+    assert all("Vaccination" not in e["summary"] for e in result)
     mock_list.assert_called_once()
     call_kwargs = mock_list.call_args.kwargs
     assert call_kwargs["calendarId"] == "primary"
