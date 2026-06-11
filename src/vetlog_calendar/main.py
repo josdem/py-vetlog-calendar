@@ -30,7 +30,6 @@ from .pets.service import PetService
 logger = Logger(__name__)
 
 
-
 logger = Logger(__name__)
 
 
