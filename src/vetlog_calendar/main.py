@@ -216,15 +216,11 @@ def list_surgeries_without_logs(calendar: Calendar = None, service: PetService =
             service = PetService(pet_repo)
 
         logs = service.get_logs_by_date_range(start_date, end_date)
-        log_pet_ids = {log.pet_id for log in logs}
 
-    surgeries_without_logs = [
-        s for s in surgeries if s.get("pet_id") not in log_pet_ids
-    ]
-
-    logger.info("Found %s surgeries without medical logs", len(surgeries_without_logs))
-    for surgery in surgeries_without_logs:
-        logger.info(surgery)
+    if not logs:
+        logger.info("Found %s surgeries without medical logs", len(surgeries))
+        for surgery in surgeries:
+            logger.info(surgery)
 
 
 def surgeries_cli():
