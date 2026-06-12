@@ -58,7 +58,7 @@ class Calendar:
             print(f"An error occurred: {error}")
 
     def list_surgeries(self) -> list:
-        print("Listing surgeries from the previous 7 days")
+        """Listing surgeries from the previous 7 days"""
         self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)

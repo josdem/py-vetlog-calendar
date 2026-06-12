@@ -210,6 +210,10 @@ def list_surgeries_without_logs(calendar: Calendar = None, service: PetService =
 
     surgeries = calendar.list_surgeries()
 
+    if not surgeries:
+        logger.info("No surgeries found in the last 7 days")
+        return
+
     with get_session() as session:
         if service is None:
             pet_repo = PetRepository(session)
