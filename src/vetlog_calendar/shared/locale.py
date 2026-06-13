@@ -76,3 +76,9 @@ class Locale:
         if self.language == "es":
             return "Médico - Registros de mascota pendientes"
         return "Doctor - Missing pet logs"
+
+    def get_doctor_info(self) -> str:
+        """Get the doctor info based on language"""
+        if self.language == "es":
+            return "Estimad@ médico"
+        return "Dear doctor"

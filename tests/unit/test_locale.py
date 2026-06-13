@@ -146,3 +146,17 @@ def test_get_missing_pet_logs_event_title_english():
     locale = Locale(language="en")
     title = locale.get_missing_pet_logs_event_title()
     assert title == "Doctor - Missing pet logs"
+
+
+def test_get_doctor_info_spanish():
+    """Test that the doctor info is returned in Spanish"""
+    locale = Locale(language="es")
+    doctor_info = locale.get_doctor_info()
+    assert doctor_info == "Estimad@ médico"
+
+
+def test_get_doctor_info_english():
+    """Test that the doctor info is returned in English"""
+    locale = Locale(language="en")
+    doctor_info = locale.get_doctor_info()
+    assert doctor_info == "Dear doctor"

@@ -109,20 +109,16 @@ class Helper:
         return event
 
     def get_missing_pet_logs_event(self) -> dict:
-        owner_info = (
-            f"{self.owner.first_name} {self.owner.last_name}\n{self.owner.mobile}\n"
-        )
+        doctor_info = self.locale.get_doctor_info()
         pet_info = self.locale.get_pet_info(pet=self.pet.name)
         description_info = self.locale.get_missing_pet_logs_description(
             pet=self.pet.name
         )
         thank_you_info = self.locale.get_event_thanks()
         website_info = "https://vetlog.org/"
-        body_info = f"{owner_info}\n{pet_info}\n{description_info}\n{thank_you_info}\n{website_info}"
-        if self.owner.email.lower().endswith("@vetlog.org"):
-            body_info = f"{owner_info}\n{pet_info}\n{description_info}\n{self.locale.get_description_note()}\n\n{thank_you_info}\n{website_info}"
+        body_info = f"{doctor_info}\n{pet_info}\n{description_info}\n{thank_you_info}\n{website_info}"
         event = {
-            "summary": self.locale.get_missing_pet_logs_event_title(pet=self.pet.name),
+            "summary": self.locale.get_missing_pet_logs_event_title(),
             "location": self.locale.get_event_location(),
             "description": body_info,
             "start": {
