@@ -160,3 +160,23 @@ def test_get_doctor_info_english():
     locale = Locale(language="en")
     doctor_info = locale.get_doctor_info()
     assert doctor_info == "Dear doctor"
+
+
+def test_get_pet_logs_info_header_spanish():
+    """Test that the pet logs info header is returned in Spanish"""
+    locale = Locale(language="es")
+    pet_logs_info_header = locale.get_pet_logs_info_header()
+    assert (
+        pet_logs_info_header
+        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguiente cirugías en la semana previa."
+    )
+
+
+def test_get_pet_logs_info_header_english():
+    """Test that the pet logs info header is returned in English"""
+    locale = Locale(language="en")
+    pet_logs_info_header = locale.get_pet_logs_info_header()
+    assert (
+        pet_logs_info_header
+        == "Our records show that we have missing medical logs and we had the following surgeries in the precvious week."
+    )
