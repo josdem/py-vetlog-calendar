@@ -180,3 +180,22 @@ def test_get_pet_logs_info_header_english():
         pet_logs_info_header
         == "Our records show that we have missing medical logs and we had the following surgeries in the precvious week."
     )
+
+
+def test_get_pet_logs_info_footer_spanish():
+    """Test that the pet logs info footer is returned in Spanish"""
+    locale = Locale(language="es")
+    pet_logs_info_footer = locale.get_pet_logs_info_footer()
+    assert (
+        pet_logs_info_footer
+        == "Favor de crear esos registros médicos en cuanto sea posible."
+    )
+
+
+def test_get_pet_logs_info_footer_english():
+    """Test that the pet logs info footer is returned in English"""
+    locale = Locale(language="en")
+    pet_logs_info_footer = locale.get_pet_logs_info_footer()
+    assert (
+        pet_logs_info_footer == "Please create those medical logs as soon as possible."
+    )

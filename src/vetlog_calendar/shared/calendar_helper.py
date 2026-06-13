@@ -111,12 +111,10 @@ class Helper:
     def get_missing_pet_logs_event(self) -> dict:
         doctor_info = self.locale.get_doctor_info()
         pet_logs_info_header = self.locale.get_pet_logs_info_header()
-        description_info = self.locale.get_missing_pet_logs_description(
-            pet=self.pet.name
-        )
+        pet_logs_info_footer = self.locale.get_pet_logs_info_footer()
         thank_you_info = self.locale.get_event_thanks()
         website_info = "https://vetlog.org/"
-        body_info = f"{doctor_info}\n{pet_logs_info_header}\n{description_info}\n{thank_you_info}\n{website_info}"
+        body_info = f"{doctor_info}\n{pet_logs_info_header}\n{pet_logs_info_footer}\n{thank_you_info}\n{website_info}"
         event = {
             "summary": self.locale.get_missing_pet_logs_event_title(),
             "location": self.locale.get_event_location(),
