@@ -132,3 +132,17 @@ def test_get_vaccine_type_returns_name_unchanged_for_english():
 def test_get_vaccine_type_returns_name_unchanged_for_unknown_in_spanish():
     """Locale returns a formatted vaccine type line in Spanish, even for unknown vaccine names"""
     assert Locale("es").get_vaccine_type("C6CV") == "Dosis: C6CV\n"
+
+
+def test_get_missing_pet_logs_event_title_spanish():
+    """Test that the missing pet logs event title is returned in Spanish"""
+    locale = Locale(language="es")
+    title = locale.get_missing_pet_logs_event_title()
+    assert title == "Médico - Registros de mascota pendientes"
+
+
+def test_get_missing_pet_logs_event_title_english():
+    """Test that the missing pet logs event title is returned in English"""
+    locale = Locale(language="en")
+    title = locale.get_missing_pet_logs_event_title()
+    assert title == "Doctor - Missing pet logs"

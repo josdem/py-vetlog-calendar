@@ -70,3 +70,9 @@ class Locale:
         if self.language == "es":
             return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}\n"
         return f"Vaccine type: {name}\n"
+
+    def get_missing_pet_logs_event_title(self) -> str:
+        """Get the missing pet logs event title based on language"""
+        if self.language == "es":
+            return "Médico - Registros de mascota pendientes"
+        return "Doctor - Missing pet logs"
