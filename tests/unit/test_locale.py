@@ -132,3 +132,71 @@ def test_get_vaccine_type_returns_name_unchanged_for_english():
 def test_get_vaccine_type_returns_name_unchanged_for_unknown_in_spanish():
     """Locale returns a formatted vaccine type line in Spanish, even for unknown vaccine names"""
     assert Locale("es").get_vaccine_type("C6CV") == "Dosis: C6CV\n"
+
+
+def test_get_missing_pet_logs_event_title_spanish():
+    """Test that the missing pet logs event title is returned in Spanish"""
+    locale = Locale(language="es")
+    title = locale.get_missing_pet_logs_event_title()
+    assert title == "Médico - Registros de mascota pendientes"
+
+
+def test_get_missing_pet_logs_event_title_english():
+    """Test that the missing pet logs event title is returned in English"""
+    locale = Locale(language="en")
+    title = locale.get_missing_pet_logs_event_title()
+    assert title == "Doctor - Missing pet logs"
+
+
+def test_get_doctor_info_spanish():
+    """Test that the doctor info is returned in Spanish"""
+    locale = Locale(language="es")
+    doctor_info = locale.get_doctor_info()
+    assert doctor_info == "Estimad@ Médico,\n"
+
+
+def test_get_doctor_info_english():
+    """Test that the doctor info is returned in English"""
+    locale = Locale(language="en")
+    doctor_info = locale.get_doctor_info()
+    assert doctor_info == "Dear Doctor,\n"
+
+
+def test_get_pet_logs_info_header_spanish():
+    """Test that the pet logs info header is returned in Spanish"""
+    locale = Locale(language="es")
+    pet_logs_info_header = locale.get_pet_logs_info_header()
+    assert (
+        pet_logs_info_header
+        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías en la semana previa.\n"
+    )
+
+
+def test_get_pet_logs_info_header_english():
+    """Test that the pet logs info header is returned in English"""
+    locale = Locale(language="en")
+    pet_logs_info_header = locale.get_pet_logs_info_header()
+    assert (
+        pet_logs_info_header
+        == "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
+    )
+
+
+def test_get_pet_logs_info_footer_spanish():
+    """Test that the pet logs info footer is returned in Spanish"""
+    locale = Locale(language="es")
+    pet_logs_info_footer = locale.get_pet_logs_info_footer()
+    assert (
+        pet_logs_info_footer
+        == "Favor de crear esos registros médicos en cuanto sea posible.\n"
+    )
+
+
+def test_get_pet_logs_info_footer_english():
+    """Test that the pet logs info footer is returned in English"""
+    locale = Locale(language="en")
+    pet_logs_info_footer = locale.get_pet_logs_info_footer()
+    assert (
+        pet_logs_info_footer
+        == "Please create those medical logs as soon as possible.\n"
+    )

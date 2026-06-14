@@ -16,7 +16,7 @@ import os
 
 import pytest
 from unittest.mock import MagicMock, patch
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from vetlog_calendar.pets.model import Pet
 from vetlog_calendar.shared.calendar_helper import Helper
@@ -260,6 +260,45 @@ def test_get_deworming_event_excludes_note_for_non_vetlog_email(
         helper = Helper(pet=pet, vaccination=vaccination, owner=owner, language="en")
         event = helper.get_deworming_event()
         assert "note" not in event
+
+
+def test_get_missing_pet_logs_event_description(pet, owner):
+    mock_settings = MagicMock()
+    mock_settings.DEFAULT_EMAILS = []
+    with patch(
+        "vetlog_calendar.shared.calendar_helper.get_settings",
+        return_value=mock_settings,
+    ):
+        helper = Helper(pet=pet, vaccination=None, owner=owner, language="en")
+        surgeries = [
+            {
+                "summary": "Surgery 1",
+                "start": {"dateTime": "2026-05-20T10:00:00-06:00"},
+            },
+            {
+                "summary": "Surgery 2",
+                "start": {"dateTime": "2026-05-22T14:00:00-06:00"},
+            },
+        ]
+        expected_description = {
+            "summary": "Doctor - Missing pet logs",
+            "location": "Whatever works for you",
+            "description": """Dear Doctor,\n\nOur records show that we have missing medical logs and we had the following surgeries in the previous week.\n\n- Surgery 1 on 2026-05-20T10:00:00-06:00\n- Surgery 2 on 2026-05-22T14:00:00-06:00\n\nPlease create those medical logs as soon as possible.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+            "start": {
+                "dateTime": (datetime.now() + timedelta(days=1)).strftime(
+                    "%Y-%m-%dT10:00:00-06:00"
+                ),
+                "timeZone": "UTC",
+            },
+            "end": {
+                "dateTime": (datetime.now() + timedelta(days=1)).strftime(
+                    "%Y-%m-%dT10:15:00-06:00"
+                ),
+                "timeZone": "UTC",
+            },
+            "attendees": [],
+        }
+        assert helper.get_missing_pet_logs_event(surgeries) == expected_description
 
 
 def test_settings_missing_required_vars(clean_env):

@@ -70,3 +70,27 @@ class Locale:
         if self.language == "es":
             return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}\n"
         return f"Vaccine type: {name}\n"
+
+    def get_missing_pet_logs_event_title(self) -> str:
+        """Get the missing pet logs event title based on language"""
+        if self.language == "es":
+            return "Médico - Registros de mascota pendientes"
+        return "Doctor - Missing pet logs"
+
+    def get_doctor_info(self) -> str:
+        """Get the doctor info based on language"""
+        if self.language == "es":
+            return "Estimad@ Médico,\n"
+        return "Dear Doctor,\n"
+
+    def get_pet_logs_info_header(self) -> str:
+        """Get the pet logs info header based on language"""
+        if self.language == "es":
+            return "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías en la semana previa.\n"
+        return "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
+
+    def get_pet_logs_info_footer(self) -> str:
+        """Get the pet logs info footer based on language"""
+        if self.language == "es":
+            return "Favor de crear esos registros médicos en cuanto sea posible.\n"
+        return "Please create those medical logs as soon as possible.\n"

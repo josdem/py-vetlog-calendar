@@ -50,6 +50,12 @@ uv run vaccinations --language es
 
 # List pets with pending deworming
 uv run dewormings
+
+# Check if we have missing pet logs and create a Google Calendar event for the doctor
+uv run surgeries
+
+# Check if we have missing pet logs and create a Google Calendar event for the doctor in Spanish
+uv run surgeries --language es
 ```
 
 **Test**
