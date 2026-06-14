@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 from datetime import datetime, timedelta
+from typing import Optional
 
 from . import date_helper
 
@@ -26,7 +27,11 @@ from .config import get_settings
 
 class Helper:
     def __init__(
-        self, pet: Pet, vaccination: Vaccination, owner: User, language: str = "en"
+        self,
+        pet: Optional[Pet] = None,
+        vaccination: Optional[Vaccination] = None,
+        owner: Optional[User] = None,
+        language: str = "en",
     ):
         self.pet = pet
         self.vaccination = vaccination
