@@ -296,7 +296,7 @@ def test_get_missing_pet_logs_event_description(pet, owner):
                 ),
                 "timeZone": "UTC",
             },
-            "attendees": [{"email": "contact@josdem.io"}],
+            "attendees": [],
         }
         assert helper.get_missing_pet_logs_event(surgeries) == expected_description
 

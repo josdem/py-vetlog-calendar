@@ -136,7 +136,6 @@ class Helper:
                 "timeZone": "UTC",
             },
             "attendees": [
-                {"email": self.owner.email},
                 *[{"email": email} for email in get_settings().DEFAULT_EMAILS],
             ],
         }
