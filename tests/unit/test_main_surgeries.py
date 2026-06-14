@@ -34,9 +34,12 @@ def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
     mock_helper_instance = MagicMock()
     mock_helper_instance.get_missing_pet_logs_event.return_value = mock_event
 
-    with patch("vetlog_calendar.main.get_session"), patch(
-        "vetlog_calendar.main.Helper", return_value=mock_helper_instance
-    ) as mock_helper_cls:
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch(
+            "vetlog_calendar.main.Helper", return_value=mock_helper_instance
+        ) as mock_helper_cls,
+    ):
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()
@@ -60,9 +63,12 @@ def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events)
 
     mock_helper_instance = MagicMock()
 
-    with patch("vetlog_calendar.main.get_session"), patch(
-        "vetlog_calendar.main.Helper", return_value=mock_helper_instance
-    ) as mock_helper_cls:
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch(
+            "vetlog_calendar.main.Helper", return_value=mock_helper_instance
+        ) as mock_helper_cls,
+    ):
         list_surgeries_without_logs(
             calendar=mock_calendar, service=mock_service, language="es"
         )
