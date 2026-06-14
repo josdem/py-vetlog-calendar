@@ -152,14 +152,14 @@ def test_get_doctor_info_spanish():
     """Test that the doctor info is returned in Spanish"""
     locale = Locale(language="es")
     doctor_info = locale.get_doctor_info()
-    assert doctor_info == "Estimad@ médico"
+    assert doctor_info == "Estimad@ Médico,\n"
 
 
 def test_get_doctor_info_english():
     """Test that the doctor info is returned in English"""
     locale = Locale(language="en")
     doctor_info = locale.get_doctor_info()
-    assert doctor_info == "Dear doctor"
+    assert doctor_info == "Dear Doctor,\n"
 
 
 def test_get_pet_logs_info_header_spanish():
@@ -168,7 +168,7 @@ def test_get_pet_logs_info_header_spanish():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguiente cirugías en la semana previa."
+        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguiente cirugías en la semana previa.\n"
     )
 
 
@@ -178,7 +178,7 @@ def test_get_pet_logs_info_header_english():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Our records show that we have missing medical logs and we had the following surgeries in the precvious week."
+        == "Our records show that we have missing medical logs and we had the following surgeries in the precvious week.\n"
     )
 
 
@@ -188,7 +188,7 @@ def test_get_pet_logs_info_footer_spanish():
     pet_logs_info_footer = locale.get_pet_logs_info_footer()
     assert (
         pet_logs_info_footer
-        == "Favor de crear esos registros médicos en cuanto sea posible."
+        == "Favor de crear esos registros médicos en cuanto sea posible.\n"
     )
 
 
@@ -197,5 +197,6 @@ def test_get_pet_logs_info_footer_english():
     locale = Locale(language="en")
     pet_logs_info_footer = locale.get_pet_logs_info_footer()
     assert (
-        pet_logs_info_footer == "Please create those medical logs as soon as possible."
+        pet_logs_info_footer
+        == "Please create those medical logs as soon as possible.\n"
     )

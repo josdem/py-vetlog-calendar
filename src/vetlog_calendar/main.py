@@ -224,6 +224,7 @@ def list_surgeries_without_logs(calendar: Calendar = None, service: PetService =
     if not logs:
         logger.info("Found %s surgeries without medical logs", len(surgeries))
         # TODO: Send Google calendar event to the doctor here https://github.com/josdem/py-vetlog-calendar/issues/118
+        calendar.create_missing_pet_logs_event(surgeries)
         for surgery in surgeries:
             logger.info(surgery)
 

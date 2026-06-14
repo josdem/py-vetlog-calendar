@@ -12,6 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from datetime import datetime, timedelta
+
 from . import date_helper
 
 from vetlog_calendar.pets.model import Pet
@@ -108,23 +110,29 @@ class Helper:
         }
         return event
 
-    def get_missing_pet_logs_event(self) -> dict:
+    def get_missing_pet_logs_event(self, surgeries: list) -> dict:
         doctor_info = self.locale.get_doctor_info()
         pet_logs_info_header = self.locale.get_pet_logs_info_header()
+        surgery_list = "\n".join(
+            [
+                f"- {surgery['summary']} on {surgery['start']['dateTime']}"
+                for surgery in surgeries
+            ]
+        )
         pet_logs_info_footer = self.locale.get_pet_logs_info_footer()
         thank_you_info = self.locale.get_event_thanks()
         website_info = "https://vetlog.org/"
-        body_info = f"{doctor_info}\n{pet_logs_info_header}\n{pet_logs_info_footer}\n{thank_you_info}\n{website_info}"
+        body_info = f"{doctor_info}\n{pet_logs_info_header}\n{surgery_list}\n\n{pet_logs_info_footer}\n{thank_you_info}\n{website_info}"
         event = {
             "summary": self.locale.get_missing_pet_logs_event_title(),
             "location": self.locale.get_event_location(),
             "description": body_info,
             "start": {
-                "dateTime": f"{date_helper.now().strftime('%Y-%m-%d')}T10:00:00-06:00",
+                "dateTime": f"{(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')}T10:00:00-06:00",
                 "timeZone": "UTC",
             },
             "end": {
-                "dateTime": f"{date_helper.now().strftime('%Y-%m-%d')}T10:15:00-06:00",
+                "dateTime": f"{(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')}T10:15:00-06:00",
                 "timeZone": "UTC",
             },
             "attendees": [
