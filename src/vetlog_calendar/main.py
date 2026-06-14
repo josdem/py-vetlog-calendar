@@ -200,7 +200,9 @@ def dewormings_cli():
     list_dewormings(language=args.language)
 
 
-def list_surgeries_without_logs(calendar: Calendar = None, service: PetService = None, language: str = "en"):
+def list_surgeries_without_logs(
+    calendar: Calendar = None, service: PetService = None, language: str = "en"
+):
     """List surgeries from last 7 days without medical logs"""
     if calendar is None:
         calendar = Calendar()
@@ -223,9 +225,7 @@ def list_surgeries_without_logs(calendar: Calendar = None, service: PetService =
 
     if not logs:
         logger.info("Found %s surgeries without medical logs", len(surgeries))
-        helper = Helper(
-            pet=None, vaccination=None, owner=None, language=language
-        )
+        helper = Helper(pet=None, vaccination=None, owner=None, language=language)
         event = helper.get_missing_pet_logs_event(surgeries)
         calendar.create_event(event)
         for surgery in surgeries:

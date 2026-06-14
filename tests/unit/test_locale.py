@@ -178,7 +178,7 @@ def test_get_pet_logs_info_header_english():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Our records show that we have missing medical logs and we had the following surgeries in the precvious week.\n"
+        == "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
     )
 
 

@@ -87,7 +87,7 @@ class Locale:
         """Get the pet logs info header based on language"""
         if self.language == "es":
             return "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías en la semana previa.\n"
-        return "Our records show that we have missing medical logs and we had the following surgeries in the precvious week.\n"
+        return "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
 
     def get_pet_logs_info_footer(self) -> str:
         """Get the pet logs info footer based on language"""
