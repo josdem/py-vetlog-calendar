@@ -208,7 +208,7 @@ def list_surgeries_without_logs(
         calendar = Calendar()
 
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=3)
+    start_date = end_date - timedelta(days=2)
 
     surgeries = calendar.list_surgeries()
 
