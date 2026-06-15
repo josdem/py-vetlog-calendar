@@ -138,7 +138,7 @@ def test_get_missing_pet_logs_event_title_spanish():
     """Test that the missing pet logs event title is returned in Spanish"""
     locale = Locale(language="es")
     title = locale.get_missing_pet_logs_event_title()
-    assert title == "Médico - Registros de mascota pendientes"
+    assert title == "Médico - Registros médicos pendientes"
 
 
 def test_get_missing_pet_logs_event_title_english():
@@ -168,7 +168,7 @@ def test_get_pet_logs_info_header_spanish():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías en la semana previa.\n"
+        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías y/o consultas médicas.\n"
     )
 
 
@@ -178,7 +178,7 @@ def test_get_pet_logs_info_header_english():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
+        == "Our records show that we have missing medical logs and we had the following surgeries and/or medical consultations.\n"
     )
 
 

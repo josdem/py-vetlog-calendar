@@ -283,7 +283,7 @@ def test_get_missing_pet_logs_event_description(pet, owner):
         expected_description = {
             "summary": "Doctor - Missing pet logs",
             "location": "Whatever works for you",
-            "description": """Dear Doctor,\n\nOur records show that we have missing medical logs and we had the following surgeries in the previous week.\n\n- Surgery 1 on 2026-05-20T10:00:00-06:00\n- Surgery 2 on 2026-05-22T14:00:00-06:00\n\nPlease create those medical logs as soon as possible.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+            "description": """Dear Doctor,\n\nOur records show that we have missing medical logs and we had the following surgeries and/or medical consultations.\n\n- Surgery 1 on 2026-05-20T10:00:00-06:00\n- Surgery 2 on 2026-05-22T14:00:00-06:00\n\nPlease create those medical logs as soon as possible.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
             "start": {
                 "dateTime": (datetime.now()).strftime("%Y-%m-%dT12:00:00-06:00"),
                 "timeZone": "UTC",

@@ -74,7 +74,7 @@ class Locale:
     def get_missing_pet_logs_event_title(self) -> str:
         """Get the missing pet logs event title based on language"""
         if self.language == "es":
-            return "Médico - Registros de mascota pendientes"
+            return "Médico - Registros médicos pendientes"
         return "Doctor - Missing pet logs"
 
     def get_doctor_info(self) -> str:
@@ -86,8 +86,8 @@ class Locale:
     def get_pet_logs_info_header(self) -> str:
         """Get the pet logs info header based on language"""
         if self.language == "es":
-            return "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías en la semana previa.\n"
-        return "Our records show that we have missing medical logs and we had the following surgeries in the previous week.\n"
+            return "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías y/o consultas médicas.\n"
+        return "Our records show that we have missing medical logs and we had the following surgeries and/or medical consultations.\n"
 
     def get_pet_logs_info_footer(self) -> str:
         """Get the pet logs info footer based on language"""
