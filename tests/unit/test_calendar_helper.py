@@ -16,7 +16,7 @@ import os
 
 import pytest
 from unittest.mock import MagicMock, patch
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from vetlog_calendar.pets.model import Pet
 from vetlog_calendar.shared.calendar_helper import Helper
@@ -285,15 +285,11 @@ def test_get_missing_pet_logs_event_description(pet, owner):
             "location": "Whatever works for you",
             "description": """Dear Doctor,\n\nOur records show that we have missing medical logs and we had the following surgeries in the previous week.\n\n- Surgery 1 on 2026-05-20T10:00:00-06:00\n- Surgery 2 on 2026-05-22T14:00:00-06:00\n\nPlease create those medical logs as soon as possible.\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
             "start": {
-                "dateTime": (datetime.now() + timedelta(days=1)).strftime(
-                    "%Y-%m-%dT12:00:00-06:00"
-                ),
+                "dateTime": (datetime.now()).strftime("%Y-%m-%dT12:00:00-06:00"),
                 "timeZone": "UTC",
             },
             "end": {
-                "dateTime": (datetime.now() + timedelta(days=1)).strftime(
-                    "%Y-%m-%dT12:15:00-06:00"
-                ),
+                "dateTime": (datetime.now()).strftime("%Y-%m-%dT12:15:00-06:00"),
                 "timeZone": "UTC",
             },
             "attendees": [],

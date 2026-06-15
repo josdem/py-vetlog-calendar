@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 
 from . import date_helper
@@ -133,11 +133,11 @@ class Helper:
             "location": self.locale.get_event_location(),
             "description": body_info,
             "start": {
-                "dateTime": f"{(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')}T12:00:00-06:00",
+                "dateTime": f"{(datetime.now()).strftime('%Y-%m-%d')}T12:00:00-06:00",
                 "timeZone": "UTC",
             },
             "end": {
-                "dateTime": f"{(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')}T12:15:00-06:00",
+                "dateTime": f"{(datetime.now()).strftime('%Y-%m-%d')}T12:15:00-06:00",
                 "timeZone": "UTC",
             },
             "attendees": [
