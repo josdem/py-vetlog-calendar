@@ -31,6 +31,8 @@ def mock_env_vars():
             "DB_PASSWORD": "vetlogDB",
             "TOKEN_PATH": "token_path_value/token.json",
             "CREDENTIALS_PATH": "token_path_value/credentials.json",
+            "DOCTOR_INFO_EN": "Dear Doctor",
+            "DOCTOR_INFO_ES": "Estimado Médico",
             "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
         },
     ):
