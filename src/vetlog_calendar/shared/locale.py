@@ -12,11 +12,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from vetlog_calendar.shared.config import get_settings
+
 
 class Locale:
     """Locale class"""
 
     def __init__(self, language: str = "en"):
+        self.settings = get_settings()
+        self.doctor_info_en = self.settings.DOCTOR_INFO
+        self.doctor_info_es = self.settings.DOCTOR_INFO_ES
         self.language = language
 
     def get_event_title(self, owner: str, pet: str) -> str:
@@ -80,8 +85,8 @@ class Locale:
     def get_doctor_info(self) -> str:
         """Get the doctor info based on language"""
         if self.language == "es":
-            return "Estimad@ Médico,\n"
-        return "Dear Doctor,\n"
+            return self.doctor_info_es
+        return self.doctor_info_en
 
     def get_pet_logs_info_header(self) -> str:
         """Get the pet logs info header based on language"""

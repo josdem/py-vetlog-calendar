@@ -31,6 +31,8 @@ def mock_env_vars():
             "TOKEN_PATH": "token_path_value/token.json",
             "CREDENTIALS_PATH": "token_path_value/credentials.json",
             "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
+            "DOCTOR_INFO": "Dear Doctor,",
+            "DOCTOR_INFO_ES": "Estimad@ Médico,",
         },
     ):
         yield

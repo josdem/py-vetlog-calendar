@@ -12,94 +12,118 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import os
+
+import pytest
+from unittest.mock import patch
+
 from vetlog_calendar.shared.locale import Locale
 
 
-def test_return_spanish_title():
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(
+        os.environ,
+        {
+            "DB_HOST": "localhost",
+            "DB_NAME": "vetlog",
+            "DB_USER": "vetlogUser",
+            "DB_PASSWORD": "vetlogDB",
+            "TOKEN_PATH": "token_path_value/token.json",
+            "CREDENTIALS_PATH": "token_path_value/credentials.json",
+            "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
+            "DOCTOR_INFO": "Dear Doctor,",
+            "DOCTOR_INFO_ES": "Estimad@ Médico,",
+        },
+    ):
+        yield
+
+
+def test_return_spanish_title(mock_env_vars):
     """Test that the title is returned in Spanish"""
     locale = Locale(language="es")
     title = locale.get_event_title(owner="Jose", pet="Sora")
     assert title == "Jose - Cita de vacunación para Sora"
 
 
-def test_return_english_title():
+def test_return_english_title(mock_env_vars):
     """Test that the title is returned in English"""
     locale = Locale()
     title = locale.get_event_title(owner="Jose", pet="Sora")
     assert title == "Jose - Vaccination appointment for Sora"
 
 
-def test_return_spanish_pet_info():
+def test_return_spanish_pet_info(mock_env_vars):
     """Test that the pet info is returned in Spanish"""
     locale = Locale(language="es")
     pet_info = locale.get_pet_info(pet="Sora")
     assert pet_info == "Cita de vacunación para Sora"
 
 
-def test_return_english_pet_info():
+def test_return_english_pet_info(mock_env_vars):
     """Test that the pet info is returned in English"""
     locale = Locale()
     pet_info = locale.get_pet_info(pet="Sora")
     assert pet_info == "Vaccination appointment for Sora"
 
 
-def test_return_spanish_location():
+def test_return_spanish_location(mock_env_vars):
     """Test that the location is returned in Spanish"""
     locale = Locale(language="es")
     location = locale.get_event_location()
     assert location == "La que mejor funcione para ambos"
 
 
-def test_return_english_location():
+def test_return_english_location(mock_env_vars):
     """Test that the location is returned in English"""
     locale = Locale()
     location = locale.get_event_location()
     assert location == "Whatever works for you"
 
 
-def test_return_spanish_thanks():
+def test_return_spanish_thanks(mock_env_vars):
     """Test that the thanks message is returned in Spanish"""
     locale = Locale(language="es")
     thanks = locale.get_event_thanks()
     assert thanks == "¡Gracias por confiar en Vetlog!"
 
 
-def test_return_english_thanks():
+def test_return_english_thanks(mock_env_vars):
     """Test that the thanks message is returned in English"""
     locale = Locale()
     thanks = locale.get_event_thanks()
     assert thanks == "Thank you for trusting Vetlog!"
 
 
-def test_return_spanish_description_note():
+def test_return_spanish_description_note(mock_env_vars):
     """Test that the description note message is returned in Spanish"""
     locale = Locale(language="es")
     description_note = locale.get_description_note()
     assert description_note == "Nota: Favor de dar seguimiento usando WhatsApp."
 
 
-def test_return_english_description_note():
+def test_return_english_description_note(mock_env_vars):
     """Test that the description note message is returned in English"""
     locale = Locale()
     description_note = locale.get_description_note()
     assert description_note == "Note: Please follow up by phone."
 
 
-def test_return_spanish_deworming_title():
+def test_return_spanish_deworming_title(mock_env_vars):
     """Test that the deworming title is returned in Spanish"""
     locale = Locale(language="es")
     title = locale.get_deworming_event_title(owner="Jose", pet="Sora")
     assert title == "Jose - Cita de desparasitación para Sora"
 
 
-def test_return_english_deworming_title():
+def test_return_english_deworming_title(mock_env_vars):
     """Test that the deworming title is returned in English"""
     locale = Locale()
     title = locale.get_deworming_event_title(owner="Jose", pet="Sora")
     assert title == "Jose - Deworming appointment for Sora"
 
 
-def test_return_spanish_deworming_description():
+def test_return_spanish_deworming_description(mock_env_vars):
     """Test that the deworming description is returned in Spanish"""
     locale = Locale(language="es")
     description = locale.get_deworming_description(pet="Sora", date="2024-01-01")
@@ -109,7 +133,7 @@ def test_return_spanish_deworming_description():
     )
 
 
-def test_return_english_deworming_description():
+def test_return_english_deworming_description(mock_env_vars):
     """Test that the deworming description is returned in English"""
     locale = Locale()
     description = locale.get_deworming_description(pet="Sora", date="2024-01-01")
@@ -152,14 +176,14 @@ def test_get_doctor_info_spanish():
     """Test that the doctor info is returned in Spanish"""
     locale = Locale(language="es")
     doctor_info = locale.get_doctor_info()
-    assert doctor_info == "Estimad@ Médico,\n"
+    assert doctor_info == "Estimad@ Médico,"
 
 
 def test_get_doctor_info_english():
     """Test that the doctor info is returned in English"""
     locale = Locale(language="en")
     doctor_info = locale.get_doctor_info()
-    assert doctor_info == "Dear Doctor,\n"
+    assert doctor_info == "Dear Doctor,"
 
 
 def test_get_pet_logs_info_header_spanish():
