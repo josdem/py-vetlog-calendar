@@ -34,6 +34,8 @@ def mock_db_env():
             "DB_PASSWORD": "vetlogDB",
             "TOKEN_PATH": "/tmp/test-token.json",
             "CREDENTIALS_PATH": "/tmp/test-credentials.json",
+            "DOCTOR_INFO": "Dear Doctor,",
+            "DOCTOR_INFO_ES": "Estimad@ Médico,",
         },
         clear=True,
     ):
