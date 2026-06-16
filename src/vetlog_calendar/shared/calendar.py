@@ -22,6 +22,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from .config import get_settings
+from .medical_helper import is_medical_event
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
@@ -77,13 +78,9 @@ class Calendar:
             )
             events = events_result.get("items", [])
             surgeries = [
-                event for event in events if self._is_surgery(event.get("summary", ""))
+                event for event in events if is_medical_event(event.get("summary", ""))
             ]
             return surgeries
         except HttpError as error:
             print(f"An error occurred: {error}")
             return []
-
-    def _is_surgery(self, title: str) -> bool:
-        title = title.lower()
-        return "surgery" in title or "cirugia" in title or "cirugía" in title
