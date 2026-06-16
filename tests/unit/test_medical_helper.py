@@ -33,3 +33,38 @@ def test_is_surgery_detects_spanish_cirugia_with_accent():
 def test_is_surgery_ignores_non_surgery_event():
     """Ignore events that are not surgeries"""
     assert not is_medical_event("Jose - Vaccination appointment for Sora")
+
+
+def test_is_surgery_detects_spay_surgery():
+    """Detect Spay surgery events in English"""
+    assert is_medical_event("Jose - Spay surgery appointment for Sora")
+
+
+def test_is_surgery_detects_neuer_surgery():
+    """Detect Neuer surgery events in English"""
+    assert is_medical_event("Jose - Neuer surgery appointment for Nico")
+
+
+def test_is_surgery_detects_medical_appointment():
+    """Detect medical appointment events in English"""
+    assert is_medical_event("Jose - Medical appointment for Sora")
+
+
+def test_is_surgery_detects_medical_appointment_in_spanish():
+    """Detect medical appointment events in Spanish"""
+    assert is_medical_event("Jose - Cita médica para Sora")
+
+
+def test_is_surgery_detects_medical_appointment_in_spanish_without_accent():
+    """Detect medical appointment events in Spanish"""
+    assert is_medical_event("Jose - Cita medica para Sora")
+
+
+def test_is_surgery_detects_special_spanish_surgery_keyword_in_spanish():
+    """Detect special surgery keyword in appointment events in Spanish"""
+    assert is_medical_event("Jose - Cita esterilización para Sora")
+
+
+def test_is_surgery_detects_special_spanish_surgery_keyword_in_spanish_without_accent():
+    """Detect special surgery keyword in appointment events in Spanish without accent"""
+    assert is_medical_event("Jose - Cita esterilizacion para Sora")
