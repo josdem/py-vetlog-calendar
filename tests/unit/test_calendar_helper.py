@@ -26,6 +26,7 @@ from vetlog_calendar.vaccinations.model import Vaccination
 from pydantic import ValidationError
 from vetlog_calendar.shared.config import Settings
 
+
 @pytest.fixture
 def mock_env_vars():
     with patch.dict(
@@ -43,6 +44,7 @@ def mock_env_vars():
         },
     ):
         yield
+
 
 @pytest.fixture
 def clean_env():
@@ -75,27 +77,27 @@ def vaccination():
 
 
 def test_get_event_description(pet, vaccination, owner, mock_env_vars):
-        helper = Helper(pet=pet, vaccination=vaccination, owner=owner, language="en")
-        expected_description = {
-            "summary": "Jose - Vaccination appointment for Sora",
-            "location": "Whatever works for you",
-            "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
-            "start": {
-                "dateTime": "2026-05-21T11:00:00-06:00",
-                "timeZone": "UTC",
-            },
-            "end": {
-                "dateTime": "2026-05-21T11:15:00-06:00",
-                "timeZone": "UTC",
-            },
-            "attendees": [
-                {"email": "contact@josdem.io"},
-                {"email": "email1@example.com"},
-                {"email": "email2@example.com"},
-                {"email": "email3@example.com"},
-            ],
-        }
-        assert helper.get_vaccination_event() == expected_description
+    helper = Helper(pet=pet, vaccination=vaccination, owner=owner, language="en")
+    expected_description = {
+        "summary": "Jose - Vaccination appointment for Sora",
+        "location": "Whatever works for you",
+        "description": """Jose Morales\n1234567890\n\nVaccination appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+        "start": {
+            "dateTime": "2026-05-21T11:00:00-06:00",
+            "timeZone": "UTC",
+        },
+        "end": {
+            "dateTime": "2026-05-21T11:15:00-06:00",
+            "timeZone": "UTC",
+        },
+        "attendees": [
+            {"email": "contact@josdem.io"},
+            {"email": "email1@example.com"},
+            {"email": "email2@example.com"},
+            {"email": "email3@example.com"},
+        ],
+    }
+    assert helper.get_vaccination_event() == expected_description
 
 
 def test_get_event_shifts_monday_date_by_two_days(pet, owner):
