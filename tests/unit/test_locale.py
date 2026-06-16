@@ -15,7 +15,7 @@
 import os
 
 import pytest
-from requests import patch
+from unittest.mock import patch
 
 from vetlog_calendar.shared.locale import Locale
 
@@ -33,7 +33,7 @@ def mock_env_vars():
             "CREDENTIALS_PATH": "token_path_value/credentials.json",
             "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
             "DOCTOR_INFO": "Dear Doctor,",
-            "DOCTOR_INFO_ES": "Estimado Médico,",
+            "DOCTOR_INFO_ES": "Estimad@ Médico,",
         },
     ):
         yield
