@@ -26,6 +26,23 @@ from vetlog_calendar.vaccinations.model import Vaccination
 from pydantic import ValidationError
 from vetlog_calendar.shared.config import Settings
 
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(
+        os.environ,
+        {
+            "DB_HOST": "localhost",
+            "DB_NAME": "vetlog",
+            "DB_USER": "vetlogUser",
+            "DB_PASSWORD": "vetlogDB",
+            "TOKEN_PATH": "token_path_value/token.json",
+            "CREDENTIALS_PATH": "token_path_value/credentials.json",
+            "DEFAULT_EMAILS": '["email1@example.com", "email2@example.com", "email3@example.com"]',
+            "DOCTOR_INFO": "Dear Doctor,",
+            "DOCTOR_INFO_ES": "Estimad@ Médico,",
+        },
+    ):
+        yield
 
 @pytest.fixture
 def clean_env():
@@ -57,17 +74,7 @@ def vaccination():
     )
 
 
-def test_get_event_description(pet, vaccination, owner):
-    mock_settings = MagicMock()
-    mock_settings.DEFAULT_EMAILS = [
-        "email1@example.com",
-        "email2@example.com",
-        "email3@example.com",
-    ]
-    with patch(
-        "vetlog_calendar.shared.calendar_helper.get_settings",
-        return_value=mock_settings,
-    ):
+def test_get_event_description(pet, vaccination, owner, mock_env_vars):
         helper = Helper(pet=pet, vaccination=vaccination, owner=owner, language="en")
         expected_description = {
             "summary": "Jose - Vaccination appointment for Sora",
