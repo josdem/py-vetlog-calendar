@@ -50,11 +50,8 @@ def test_get_vetlog_id_not_found(event):
         """Jose Morales\n1234567890\n\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/"""
     )
 
-    try:
+    with pytest.raises(ValueError):
         get_vetlog_id(event["description"])
-        assert False, "Expected ValueError not raised"
-    except ValueError:
-        pass
 
 
 def test_get_vetlog_id_if_lower_case(event):
