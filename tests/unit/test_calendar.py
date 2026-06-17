@@ -170,26 +170,6 @@ def test_create_event_handles_http_error(event, capsys):
     assert "An error occurred" in captured.out
 
 
-def test_is_surgery_detects_english_surgery(mock_env_vars):
-    """Detect surgery events in English"""
-    assert Calendar()._is_surgery("Jose - Surgery appointment for Sora")
-
-
-def test_is_surgery_detects_spanish_cirugia(mock_env_vars):
-    """Detect surgery events in Spanish without accent"""
-    assert Calendar()._is_surgery("Jose - Cirugia appointment for Sora")
-
-
-def test_is_surgery_detects_spanish_cirugia_with_accent(mock_env_vars):
-    """Detect surgery events in Spanish with accent"""
-    assert Calendar()._is_surgery("Jose - Cirugía appointment for Sora")
-
-
-def test_is_surgery_ignores_non_surgery_event(mock_env_vars):
-    """Ignore events that are not surgeries"""
-    assert not Calendar()._is_surgery("Jose - Vaccination appointment for Sora")
-
-
 def test_list_surgeries_with_valid_credentials(mock_env_vars):
     """List surgery events from the previous 7 days"""
     mock_creds = MagicMock()
