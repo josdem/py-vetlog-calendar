@@ -31,10 +31,10 @@ class PetService:
         return self.repository.find_by_id(id)
 
     def get_logs_by_date_range(
-        self, start_date: datetime, end_date: datetime
+        self, start_date: datetime, end_date: datetime, pet_id: int | None = None
     ) -> Sequence[PetLog]:
         """Return petlog"""
         if start_date > end_date:
             raise ValueError("Start date cannot be after end date.")
 
-        return self.repository.find_all_pet_logs(start_date, end_date)
+        return self.repository.find_all_pet_logs(start_date, end_date, pet_id=pet_id)

@@ -89,6 +89,29 @@ def pet():
     )
 
 
+@pytest.fixture
+def event():
+    return {
+        "summary": "Jose - Vaccination appointment for Sora",
+        "location": "Whatever works for you",
+        "description": """Jose Morales\n1234567890\n\nVetlogID: 338\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+        "start": {
+            "dateTime": "2026-05-21T11:00:00-06:00",
+            "timeZone": "UTC",
+        },
+        "end": {
+            "dateTime": "2026-05-21T11:15:00-06:00",
+            "timeZone": "UTC",
+        },
+        "attendees": [
+            {"email": "contact@josdem.io"},
+            {"email": "email1@example.com"},
+            {"email": "email2@example.com"},
+            {"email": "email3@example.com"},
+        ],
+    }
+
+
 def test_list_users_logs_users_with_pets_pending_vaccinations(caplog):
     """List all users with pet with pending vaccinations"""
 
@@ -401,6 +424,10 @@ def test_list_surgeries_without_logs(mocker):
     mocker.patch("vetlog_calendar.main.Calendar", return_value=mock_calendar)
     mocker.patch("vetlog_calendar.main.PetService", return_value=mock_service)
     mocker.patch("vetlog_calendar.main.get_session")
+    mocker.patch(
+        "vetlog_calendar.main.get_vetlog_id",
+        side_effect=lambda description: description.split(":")[1].strip(),
+    )
 
     from vetlog_calendar.main import list_surgeries_without_logs
 

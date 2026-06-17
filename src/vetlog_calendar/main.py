@@ -22,6 +22,7 @@ from .pets.repository import PetRepository
 from .vaccinations.repository import VaccinationRepository, VaccineType
 from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
+from .shared.identifier_helper import get_vetlog_id
 from .shared.config import get_settings
 from .shared.logger import Logger
 from datetime import datetime, timedelta
@@ -221,12 +222,13 @@ def list_surgeries_without_logs(
             pet_repo = PetRepository(session)
             service = PetService(pet_repo)
 
-        logs = service.get_logs_by_date_range(start_date, end_date)
+        helper = Helper(pet=None, vaccination=None, owner=None, language=language)
+        event = helper.get_missing_pet_logs_event(surgeries)
+        pet_id = get_vetlog_id(event["description"])
+        logs = service.get_logs_by_date_range(start_date, end_date, pet_id=pet_id)
 
     if not logs:
         logger.info("Found %s surgeries without medical logs", len(surgeries))
-        helper = Helper(pet=None, vaccination=None, owner=None, language=language)
-        event = helper.get_missing_pet_logs_event(surgeries)
         calendar.create_event(event)
         for surgery in surgeries:
             logger.info(surgery)
