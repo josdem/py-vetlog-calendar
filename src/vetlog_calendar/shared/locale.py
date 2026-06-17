@@ -12,11 +12,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from vetlog_calendar.shared.config import get_settings
+
 
 class Locale:
     """Locale class"""
 
     def __init__(self, language: str = "en"):
+        self.settings = get_settings()
+        self.doctor_info_en = self.settings.DOCTOR_INFO
+        self.doctor_info_es = self.settings.DOCTOR_INFO_ES
         self.language = language
 
     def get_event_title(self, owner: str, pet: str) -> str:
@@ -70,3 +75,27 @@ class Locale:
         if self.language == "es":
             return f"Dosis: {self.VACCINE_TRANSLATIONS.get(name, name)}\n"
         return f"Vaccine type: {name}\n"
+
+    def get_missing_pet_logs_event_title(self) -> str:
+        """Get the missing pet logs event title based on language"""
+        if self.language == "es":
+            return "Médico - Registros médicos pendientes"
+        return "Doctor - Missing pet logs"
+
+    def get_doctor_info(self) -> str:
+        """Get the doctor info based on language"""
+        if self.language == "es":
+            return self.doctor_info_es
+        return self.doctor_info_en
+
+    def get_pet_logs_info_header(self) -> str:
+        """Get the pet logs info header based on language"""
+        if self.language == "es":
+            return "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías y/o consultas médicas.\n"
+        return "Our records show that we have missing medical logs and we had the following surgeries and/or medical consultations.\n"
+
+    def get_pet_logs_info_footer(self) -> str:
+        """Get the pet logs info footer based on language"""
+        if self.language == "es":
+            return "Favor de crear esos registros médicos en cuanto sea posible.\n"
+        return "Please create those medical logs as soon as possible.\n"

@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+from . import __project__, __version__
 import argparse
 
 
@@ -24,8 +24,11 @@ from .vaccinations.service import VaccinationService
 from .shared.calendar import Calendar
 from .shared.config import get_settings
 from .shared.logger import Logger
+from datetime import datetime, timedelta
+from .pets.service import PetService
 
-from . import __project__, __version__
+logger = Logger(__name__)
+
 
 logger = Logger(__name__)
 
@@ -195,6 +198,52 @@ def dewormings_cli():
     )
     args = parser.parse_args()
     list_dewormings(language=args.language)
+
+
+def list_surgeries_without_logs(
+    calendar: Calendar = None, service: PetService = None, language: str = "en"
+):
+    """List surgeries from last 7 days without medical logs"""
+    if calendar is None:
+        calendar = Calendar()
+
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=2)
+
+    surgeries = calendar.list_surgeries()
+
+    if not surgeries:
+        logger.info("No surgeries found in the last 7 days")
+        return
+
+    with get_session() as session:
+        if service is None:
+            pet_repo = PetRepository(session)
+            service = PetService(pet_repo)
+
+        logs = service.get_logs_by_date_range(start_date, end_date)
+
+    if not logs:
+        logger.info("Found %s surgeries without medical logs", len(surgeries))
+        helper = Helper(pet=None, vaccination=None, owner=None, language=language)
+        event = helper.get_missing_pet_logs_event(surgeries)
+        calendar.create_event(event)
+        for surgery in surgeries:
+            logger.info(surgery)
+
+
+def surgeries_cli():
+    """CLI entry point for surgeries without logs"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--language",
+        type=str.lower,
+        choices=["en", "es"],
+        default="en",
+        help="Language for the calendar events",
+    )
+    args = parser.parse_args()
+    list_surgeries_without_logs(language=args.language)
 
 
 def version_check():

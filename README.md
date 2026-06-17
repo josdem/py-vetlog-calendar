@@ -50,6 +50,12 @@ uv run vaccinations --language es
 
 # List pets with pending deworming
 uv run dewormings
+
+# Check if we have missing pet logs and create a Google Calendar event for the doctor
+uv run surgeries
+
+# Check if we have missing pet logs and create a Google Calendar event for the doctor in Spanish
+uv run surgeries --language es
 ```
 
 **Test**
@@ -106,6 +112,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/adwibha"><img src="https://avatars.githubusercontent.com/u/138350158?v=4?s=100" width="100px;" alt="Akhil"/><br /><sub><b>Akhil</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=adwibha" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://terminalchai.com/"><img src="https://avatars.githubusercontent.com/u/213856599?v=4?s=100" width="100px;" alt="Terminal Chai"/><br /><sub><b>Terminal Chai</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=terminalchai" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/paarothecoder"><img src="https://avatars.githubusercontent.com/u/212145438?v=4?s=100" width="100px;" alt="mukhiyaJI"/><br /><sub><b>mukhiyaJI</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=paarothecoder" title="Code">💻</a> <a href="https://github.com/josdem/py-vetlog-calendar/pulls?q=is%3Apr+reviewed-by%3Apaarothecoder" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/josejdiaz-1970"><img src="https://avatars.githubusercontent.com/u/191517686?v=4?s=100" width="100px;" alt="josejdiaz-1970"/><br /><sub><b>josejdiaz-1970</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=josejdiaz-1970" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vaishnavidesai09"><img src="https://avatars.githubusercontent.com/u/100829102?v=4?s=100" width="100px;" alt="Vaishnavi Desai"/><br /><sub><b>Vaishnavi Desai</b></sub></a><br /><a href="https://github.com/josdem/py-vetlog-calendar/commits?author=vaishnavidesai09" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

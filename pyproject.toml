@@ -1,6 +1,6 @@
 [project]
 name = "py-vetlog-calendar"
-version = "1.5.1"
+version = "1.6.2"
 description = "Vetlog appointments organizer"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -29,6 +29,8 @@ users = "vetlog_calendar.main:list_users"
 pets = "vetlog_calendar.main:list_pets"
 vaccinations = "vetlog_calendar.main:vaccinations_cli"
 dewormings = "vetlog_calendar.main:dewormings_cli"
+surgeries = "vetlog_calendar.main:surgeries_cli"
+
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
@@ -36,3 +38,10 @@ build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest-mock>=3.15.1",
+]
+

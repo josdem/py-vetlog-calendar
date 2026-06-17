@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     TOKEN_PATH: str
     CREDENTIALS_PATH: str
     DEFAULT_EMAILS: list[str] = []
+    DOCTOR_INFO: str
+    DOCTOR_INFO_ES: str
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 import os.path
+import datetime
 
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -20,35 +21,66 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .config import Settings
+from .config import get_settings
+from .medical_helper import is_medical_event
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
 
 class Calendar:
-    def create_event(self, event: dict):
-        print("Creating event")
-        settings = Settings()
-        token_path = settings.TOKEN_PATH
-        credentials_path = settings.CREDENTIALS_PATH
-        creds = None
-        if os.path.exists(token_path):
-            creds = Credentials.from_authorized_user_file(token_path, SCOPES)
-        if not creds or not creds.valid:
+    def __init__(self):
+        self.settings = get_settings()
+        self.token_path = self.settings.TOKEN_PATH
+        self.credentials_path = self.settings.CREDENTIALS_PATH
+        self.creds = None
+
+    def _ensure_credentials(self):
+        if os.path.exists(self.token_path):
+            self.creds = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+        if not self.creds or not self.creds.valid:
             print("No valid credentials")
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
+            if self.creds and self.creds.expired and self.creds.refresh_token:
+                self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    credentials_path, SCOPES
+                    self.credentials_path, SCOPES
                 )
-                creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open(token_path, "w") as token:
-                token.write(creds.to_json())
-        try:
-            service = build("calendar", "v3", credentials=creds)
-            service.events().insert(calendarId="primary", body=event).execute()
+                self.creds = flow.run_local_server(port=0)
+            with open(self.token_path, "w") as token:
+                token.write(self.creds.to_json())
 
+    def create_event(self, event: dict):
+        print("Creating event")
+        self._ensure_credentials()
+        try:
+            service = build("calendar", "v3", credentials=self.creds)
+            service.events().insert(calendarId="primary", body=event).execute()
         except HttpError as error:
             print(f"An error occurred: {error}")
+
+    def list_surgeries(self) -> list:
+        """Listing surgeries from the previous 7 days"""
+        self._ensure_credentials()
+        try:
+            service = build("calendar", "v3", credentials=self.creds)
+            now = datetime.datetime.now(datetime.UTC)
+            seven_days_ago = now - datetime.timedelta(days=7)
+            events_result = (
+                service.events()
+                .list(
+                    calendarId="primary",
+                    timeMin=seven_days_ago.isoformat(),
+                    timeMax=now.isoformat(),
+                    singleEvents=True,
+                    orderBy="startTime",
+                )
+                .execute()
+            )
+            events = events_result.get("items", [])
+            surgeries = [
+                event for event in events if is_medical_event(event.get("summary", ""))
+            ]
+            return surgeries
+        except HttpError as error:
+            print(f"An error occurred: {error}")
+            return []
