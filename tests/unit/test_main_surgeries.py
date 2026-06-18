@@ -65,6 +65,7 @@ def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events)
 
     with (
         patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
         patch(
             "vetlog_calendar.main.Helper", return_value=mock_helper_instance
         ) as mock_helper_cls,
@@ -93,7 +94,10 @@ def test_list_surgeries_without_logs_excludes_surgeries_with_logs(mock_surgery_e
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = [log]
 
-    with patch("vetlog_calendar.main.get_session"):
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
+    ):
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()
@@ -110,7 +114,10 @@ def test_list_surgeries_without_logs_empty_when_all_have_logs(mock_surgery_event
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = logs
 
-    with patch("vetlog_calendar.main.get_session"):
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
+    ):
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()
