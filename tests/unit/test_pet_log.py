@@ -67,7 +67,7 @@ def test_get_logs_by_date_range_success(session: Session):
 
     start = datetime(2026, 6, 1)
     end = datetime(2026, 6, 10)
-    results = service.get_logs_by_date_range(start, end)
+    results = service.get_logs_by_date_range(start, end, pet_id=pet.id)
 
     assert len(results) == 2
     assert results[0].diagnosis == "Routine Checkup"
