@@ -5,6 +5,29 @@ from vetlog_calendar.pets.model import PetLog
 
 
 @pytest.fixture
+def event():
+    return {
+        "summary": "Jose - Vaccination appointment for Sora",
+        "location": "Whatever works for you",
+        "description": """Jose Morales\n1234567890\n\nVetlogID: 338\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+        "start": {
+            "dateTime": "2026-05-21T11:00:00-06:00",
+            "timeZone": "UTC",
+        },
+        "end": {
+            "dateTime": "2026-05-21T11:15:00-06:00",
+            "timeZone": "UTC",
+        },
+        "attendees": [
+            {"email": "contact@josdem.io"},
+            {"email": "email1@example.com"},
+            {"email": "email2@example.com"},
+            {"email": "email3@example.com"},
+        ],
+    }
+
+
+@pytest.fixture
 def mock_surgery_events():
     return [
         {
@@ -21,7 +44,7 @@ def mock_surgery_events():
 
 
 def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
-    mock_surgery_events,
+    mock_surgery_events, event
 ):
     """Surgeries with no medical logs in the period are listed"""
     mock_calendar = MagicMock()
@@ -30,12 +53,12 @@ def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = []  # no logs
 
-    mock_event = {"summary": "Missing pet logs event"}
     mock_helper_instance = MagicMock()
-    mock_helper_instance.get_missing_pet_logs_event.return_value = mock_event
+    mock_helper_instance.get_missing_pet_logs_event.return_value = event
 
     with (
         patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
         patch(
             "vetlog_calendar.main.Helper", return_value=mock_helper_instance
         ) as mock_helper_cls,
@@ -50,7 +73,7 @@ def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
     mock_helper_instance.get_missing_pet_logs_event.assert_called_once_with(
         mock_surgery_events
     )
-    mock_calendar.create_event.assert_called_once_with(mock_event)
+    mock_calendar.create_event.assert_called_once_with(event)
 
 
 def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events):
@@ -65,6 +88,7 @@ def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events)
 
     with (
         patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
         patch(
             "vetlog_calendar.main.Helper", return_value=mock_helper_instance
         ) as mock_helper_cls,
@@ -93,7 +117,10 @@ def test_list_surgeries_without_logs_excludes_surgeries_with_logs(mock_surgery_e
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = [log]
 
-    with patch("vetlog_calendar.main.get_session"):
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
+    ):
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()
@@ -110,7 +137,10 @@ def test_list_surgeries_without_logs_empty_when_all_have_logs(mock_surgery_event
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = logs
 
-    with patch("vetlog_calendar.main.get_session"):
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch("vetlog_calendar.main.get_vetlog_id", return_value=338),
+    ):
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()

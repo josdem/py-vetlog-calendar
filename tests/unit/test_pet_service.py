@@ -12,6 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import datetime
+
 import pytest
 
 from unittest.mock import MagicMock
@@ -40,3 +42,27 @@ def test_get_pet_by_id(mock_repo):
     mock_repo.find_by_id.return_value = pet
     assert service.get_by_id(1) == pet
     mock_repo.find_by_id.assert_called_once_with(1)
+
+
+def test_get_logs_by_date_range_invalid_dates(mock_repo):
+    """Get pet logs by date range with invalid dates"""
+    service = PetService(repository=mock_repo)
+    with pytest.raises(ValueError, match="Start date cannot be after end date."):
+        service.get_logs_by_date_range(
+            start_date=datetime.datetime(2024, 1, 2),
+            end_date=datetime.datetime(2024, 1, 1),
+        )
+
+
+def test_get_logs_by_date_range(mock_repo):
+    """Get pet logs by date range"""
+    service = PetService(repository=mock_repo)
+    start_date = datetime.datetime(2024, 1, 1)
+    end_date = datetime.datetime(2024, 1, 31)
+    pet_id = 1
+    logs = [MagicMock()]
+    mock_repo.find_all_pet_logs.return_value = logs
+    assert service.get_logs_by_date_range(start_date, end_date, pet_id) == logs
+    mock_repo.find_all_pet_logs.assert_called_once_with(
+        start_date, end_date, pet_id=pet_id
+    )
