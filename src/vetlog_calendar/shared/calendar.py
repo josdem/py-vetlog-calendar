@@ -63,7 +63,7 @@ class Calendar:
         self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
-            yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+            yesterday = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1)
             week_ago = yesterday - datetime.timedelta(days=6)
             events_result = (
                 service.events()
