@@ -63,14 +63,14 @@ class Calendar:
         self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
-            now = datetime.datetime.now(datetime.UTC)
-            seven_days_ago = now - datetime.timedelta(days=7)
+            yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+            week_ago = yesterday - datetime.timedelta(days=6)
             events_result = (
                 service.events()
                 .list(
                     calendarId="primary",
-                    timeMin=seven_days_ago.isoformat(),
-                    timeMax=now.isoformat(),
+                    timeMin=week_ago.isoformat(),
+                    timeMax=yesterday.isoformat(),
                     singleEvents=True,
                     orderBy="startTime",
                 )
