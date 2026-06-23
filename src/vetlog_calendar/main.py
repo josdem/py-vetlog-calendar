@@ -211,7 +211,15 @@ def list_surgeries_without_logs(
     end_date = datetime.now()
     start_date = end_date - timedelta(days=7)
 
+    logger.info("Listing surgeries without logs from %s to %s", start_date, end_date)
+
     surgeries = calendar.list_surgeries()
+    for surgery in surgeries:
+        logger.info(
+            "Surgery: %s, Date: %s",
+            surgery.get("summary"),
+            surgery.get("start").get("dateTime"),
+        )
 
     if not surgeries:
         logger.info("No surgeries found in the last 7 days")
@@ -224,7 +232,7 @@ def list_surgeries_without_logs(
 
         helper = Helper(pet=None, vaccination=None, owner=None, language=language)
         event = helper.get_missing_pet_logs_event(surgeries)
-        pet_id = get_vetlog_id(event["description"])
+        pet_id = get_vetlog_id(surgeries[0].get("description", ""))
         logs = service.get_logs_by_date_range(start_date, end_date, pet_id=pet_id)
 
     if not logs:

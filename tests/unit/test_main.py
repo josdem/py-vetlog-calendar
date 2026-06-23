@@ -408,12 +408,12 @@ def test_list_surgeries_without_logs(mocker):
     mock_calendar.list_surgeries.return_value = [
         {
             "summary": "Jose - Surgery for Sora",
-            "pet_id": 1,
+            "description": "VetlogID: 1",
             "start": {"dateTime": "2026-06-01T11:00:00-06:00"},
         },
         {
             "summary": "Jose - Cirugía para Luna",
-            "pet_id": 2,
+            "description": "VetlogID: 2",
             "start": {"dateTime": "2026-06-02T11:00:00-06:00"},
         },
     ]

@@ -516,7 +516,7 @@ wheels = [
 
 [[package]]
 name = "py-vetlog-calendar"
-version = "1.6.4"
+version = "1.6.5"
 source = { editable = "." }
 dependencies = [
     { name = "google-api-python-client" },

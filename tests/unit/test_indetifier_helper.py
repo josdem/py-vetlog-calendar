@@ -22,7 +22,7 @@ def event():
     return {
         "summary": "Jose - Vaccination appointment for Sora",
         "location": "Whatever works for you",
-        "description": """Jose Morales\n1234567890\n\nVetlogID: 338\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/""",
+        "description": """Jose Morales<br>1234567890<br>VetlogID: 338<br>Surgery appointment for Sora<br>Vaccine type: C6CV<br><br>Thank you for trusting Vetlog!<br>https://vetlog.org/""",
         "start": {
             "dateTime": "2026-05-21T11:00:00-06:00",
             "timeZone": "UTC",
@@ -47,7 +47,7 @@ def test_get_vetlog_id(event):
 def test_get_vetlog_id_not_found(event):
 
     event["description"] = (
-        """Jose Morales\n1234567890\n\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/"""
+        """Jose Morales<br>1234567890<br><br>Surgery appointment for Sora<br>Vaccine type: C6CV<br><br>Thank you for trusting Vetlog!<br>https://vetlog.org/"""
     )
 
     with pytest.raises(ValueError):
@@ -56,6 +56,6 @@ def test_get_vetlog_id_not_found(event):
 
 def test_get_vetlog_id_if_lower_case(event):
     event["description"] = (
-        """Jose Morales\n1234567890\n\nvetlogId: 338\nSurgery appointment for Sora\nVaccine type: C6CV\n\nThank you for trusting Vetlog!\nhttps://vetlog.org/"""
+        """Jose Morales<br>1234567890<br><br>vetlogId: 338<br>Surgery appointment for Sora<br>Vaccine type: C6CV<br><br>Thank you for trusting Vetlog!<br>https://vetlog.org/"""
     )
     assert get_vetlog_id(event["description"]) == "338"

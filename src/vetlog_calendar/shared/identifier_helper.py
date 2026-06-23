@@ -16,7 +16,8 @@
 def get_vetlog_id(description: str) -> str:
     """Get the vetlog id from the description."""
     description = description.lower()
-    for line in description.split("\n"):
+    for line in description.split("<br>"):
+        print(f"Line: {line}")
         if line.startswith("vetlogid:"):
             return line.split(":")[1].strip()
     raise ValueError("Vetlog ID not found")
