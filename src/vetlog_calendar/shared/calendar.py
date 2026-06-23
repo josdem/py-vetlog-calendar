@@ -63,14 +63,15 @@ class Calendar:
         self._ensure_credentials()
         try:
             service = build("calendar", "v3", credentials=self.creds)
-            yesterday = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1)
-            week_ago = yesterday - datetime.timedelta(days=6)
+            now = datetime.datetime.now(datetime.UTC)
+            week_ago = now - datetime.timedelta(days=7)
+            print(f"Fetching surgeries from {week_ago} to {now}")
             events_result = (
                 service.events()
                 .list(
                     calendarId="primary",
                     timeMin=week_ago.isoformat(),
-                    timeMax=yesterday.isoformat(),
+                    timeMax=now.isoformat(),
                     singleEvents=True,
                     orderBy="startTime",
                 )
