@@ -232,14 +232,18 @@ def list_surgeries_without_logs(
 
         helper = Helper(pet=None, vaccination=None, owner=None, language=language)
         event = helper.get_missing_pet_logs_event(surgeries)
-        pet_id = get_vetlog_id(surgeries[0].get("description", ""))
-        logs = service.get_logs_by_date_range(start_date, end_date, pet_id=pet_id)
-        for log in logs:
-            logger.info(
-                "Found log with id: %s, date: %s",
-                log.id,
-                log.date_created,
-            )
+        try:
+            pet_id = get_vetlog_id(surgeries[0].get("description", ""))
+            logs = service.get_logs_by_date_range(start_date, end_date, pet_id=pet_id)
+            for log in logs:
+                logger.info(
+                    "Found log with id: %s, date: %s",
+                    log.id,
+                    log.date_created,
+                )
+        except ValueError as e:
+            logger.info("Error reading description: %s setting logs to empty list", e)
+            logs = []
 
     if not logs:
         logger.info("Found %s surgeries without medical logs", len(surgeries))
