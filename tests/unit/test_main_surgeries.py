@@ -145,3 +145,25 @@ def test_list_surgeries_without_logs_empty_when_all_have_logs(mock_surgery_event
 
     mock_calendar.list_surgeries.assert_called_once()
     mock_calendar.create_event.assert_not_called()
+
+
+def test_list_surgeries_without_logs_handles_invalid_description(mock_surgery_events):
+    """If the description is invalid, logs are set to empty list"""
+    mock_calendar = MagicMock()
+    mock_calendar.list_surgeries.return_value = mock_surgery_events
+
+    mock_service = MagicMock()
+    mock_service.get_logs_by_date_range.return_value = []  # no logs
+
+    with (
+        patch("vetlog_calendar.main.get_session"),
+        patch(
+            "vetlog_calendar.main.get_vetlog_id",
+            side_effect=ValueError("Vetlog ID not found"),
+        ),
+    ):
+        list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
+
+    mock_calendar.list_surgeries.assert_called_once()
+    mock_service.get_logs_by_date_range.assert_not_called()
+    mock_calendar.create_event.assert_called_once()  # Event should still be created since logs are empty
