@@ -64,8 +64,7 @@ class Calendar:
         try:
             service = build("calendar", "v3", credentials=self.creds)
             yesterday = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1)
-            week_ago = yesterday - datetime.timedelta(days=8)
-            print(f"Fetching surgeries from: {week_ago} to {yesterday}")
+            week_ago = yesterday - datetime.timedelta(days=7)
             events_result = (
                 service.events()
                 .list(
