@@ -218,7 +218,7 @@ def list_surgeries_without_logs(
         logger.info(
             "Surgery: %s, Date: %s",
             surgery.get("summary"),
-            surgery.get("start").get("dateTime"),
+            datetime.strftime(surgery.get("start").get("dateTime"), "%Y-%m-%d"),
         )
 
     if not surgeries:
