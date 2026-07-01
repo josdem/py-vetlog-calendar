@@ -33,3 +33,9 @@ def get_last_deworming_date(
         if going_out_often
         else vaccination_date - timedelta(days=30 * 12)
     )
+
+
+def format_date(date_string: str) -> str:
+    """Format a datetime string from YYYY-mm-ddThh:mm:ss:timeZone to YYYY-mm-dd"""
+    parsed = datetime.fromisoformat(date_string)
+    return parsed.strftime("%Y-%m-%d")
