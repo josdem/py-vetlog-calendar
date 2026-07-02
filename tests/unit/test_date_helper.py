@@ -15,7 +15,7 @@
 
 from datetime import datetime
 
-from vetlog_calendar.shared.date_helper import validate_date, get_last_deworming_date
+from vetlog_calendar.shared.date_helper import validate_date, get_last_deworming_date, format_date
 
 
 def test_move_two_days_if_monday():
@@ -85,3 +85,19 @@ def test_last_deworming_clamps_leap_year_feb29_when_not_going_out_often():
     ) == datetime(
         2023, 3, 6
     )  # 1 year before is Feb 28, but since Feb has 28 days, it clamps to Mar 6
+
+
+def test_format_date_removes_time_and_timezone():
+    assert format_date("2026-06-01T14:30:00-05:00") == "2026-06-01"
+
+
+def test_format_date_with_utc_timezone():
+    assert format_date("2026-12-25T00:00:00+00:00") == "2026-12-25"
+
+
+def test_format_date_with_positive_offset():
+    assert format_date("2026-01-15T23:59:59+05:30") == "2026-01-15"
+
+
+def test_format_date_without_timezone():
+    assert format_date("2026-07-04T12:00:00") == "2026-07-04"
