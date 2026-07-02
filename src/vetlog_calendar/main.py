@@ -31,9 +31,6 @@ from .pets.service import PetService
 logger = Logger(__name__)
 
 
-logger = Logger(__name__)
-
-
 def print_paths():
     """Print paths"""
     settings = get_settings()
@@ -215,10 +212,13 @@ def list_surgeries_without_logs(
 
     surgeries = calendar.list_surgeries()
     for surgery in surgeries:
+        surgery_date = datetime.strptime(
+            surgery.get("start").get("dateTime"), "%Y-%m-%dT%H:%M:%S%z"
+        )
         logger.info(
             "Surgery: %s, Date: %s",
             surgery.get("summary"),
-            datetime.strftime(surgery.get("start").get("dateTime"), "%Y-%m-%d"),
+            surgery_date.strftime("%Y-%m-%d"),
         )
 
     if not surgeries:
