@@ -15,7 +15,11 @@
 
 from datetime import datetime
 
-from vetlog_calendar.shared.date_helper import validate_date, get_last_deworming_date, format_date
+from vetlog_calendar.shared.date_helper import (
+    validate_date,
+    get_last_deworming_date,
+    format_date,
+)
 
 
 def test_move_two_days_if_monday():

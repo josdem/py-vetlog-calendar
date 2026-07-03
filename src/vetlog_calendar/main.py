@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+from vetlog_calendar.shared import date_helper
+
 from . import __project__, __version__
 import argparse
 
@@ -212,13 +214,12 @@ def list_surgeries_without_logs(
 
     surgeries = calendar.list_surgeries()
     for surgery in surgeries:
-        surgery_date = datetime.strptime(
-            surgery.get("start").get("dateTime"), "%Y-%m-%dT%H:%M:%S%z"
-        )
+        surgery_date = surgery.get("start").get("dateTime")
+
         logger.info(
             "Surgery: %s, Date: %s",
             surgery.get("summary"),
-            surgery_date.strftime("%Y-%m-%d"),
+            date_helper.format_date(surgery_date),
         )
 
     if not surgeries:
