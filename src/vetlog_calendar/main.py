@@ -210,7 +210,11 @@ def list_surgeries_without_logs(
     end_date = datetime.now() - timedelta(days=1)
     start_date = end_date - timedelta(days=7)
 
-    logger.info("Listing surgeries without logs from %s to %s", start_date, end_date)
+    logger.info(
+        "Listing surgeries without logs from %s to %s",
+        date_helper.format_date(start_date),
+        date_helper.format_date(end_date),
+    )
 
     surgeries = calendar.list_surgeries()
     for surgery in surgeries:

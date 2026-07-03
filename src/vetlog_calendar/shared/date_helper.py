@@ -38,5 +38,7 @@ def get_last_deworming_date(
 @staticmethod
 def format_date(date_string: str) -> str:
     """Format a datetime string from YYYY-mm-ddThh:mm:ss:timeZone to YYYY-mm-dd"""
+    if isinstance(date_string, datetime):
+        return date_string.strftime("%Y-%m-%d")
     parsed = datetime.fromisoformat(date_string)
     return parsed.strftime("%Y-%m-%d")
