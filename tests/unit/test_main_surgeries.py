@@ -113,6 +113,7 @@ def test_list_surgeries_without_logs_excludes_surgeries_with_logs(mock_surgery_e
 
     log = MagicMock(spec=PetLog)
     log.pet_id = 1  # pet 1 has a log
+    log.date_created = "2026-06-01T11:00:00-06:00"
 
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = [log]
@@ -132,7 +133,10 @@ def test_list_surgeries_without_logs_empty_when_all_have_logs(mock_surgery_event
     mock_calendar = MagicMock()
     mock_calendar.list_surgeries.return_value = mock_surgery_events
 
-    logs = [MagicMock(spec=PetLog, pet_id=1), MagicMock(spec=PetLog, pet_id=2)]
+    logs = [
+        MagicMock(spec=PetLog, pet_id=1, date_created="2026-06-01T11:00:00-06:00"),
+        MagicMock(spec=PetLog, pet_id=2, date_created="2026-06-01T11:00:00-06:00"),
+    ]
 
     mock_service = MagicMock()
     mock_service.get_logs_by_date_range.return_value = logs

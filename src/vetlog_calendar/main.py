@@ -244,7 +244,7 @@ def list_surgeries_without_logs(
                 logger.info(
                     "Found log with id: %s, date: %s",
                     log.id,
-                    log.date_created,
+                    date_helper.format_date(log.date_created),
                 )
         except ValueError as e:
             logger.info("Error reading description: %s setting logs to empty list", e)
