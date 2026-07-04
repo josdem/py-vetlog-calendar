@@ -15,7 +15,11 @@
 
 from datetime import datetime
 
-from vetlog_calendar.shared.date_helper import validate_date, get_last_deworming_date, format_date
+from vetlog_calendar.shared.date_helper import (
+    validate_date,
+    get_last_deworming_date,
+    format_date,
+)
 
 
 def test_move_two_days_if_monday():
@@ -101,3 +105,7 @@ def test_format_date_with_positive_offset():
 
 def test_format_date_without_timezone():
     assert format_date("2026-07-04T12:00:00") == "2026-07-04"
+
+
+def test_format_if_date_object():
+    assert format_date(datetime(2026, 6, 1, 14, 30)) == "2026-06-01"

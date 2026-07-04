@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+from vetlog_calendar.shared import date_helper
+
 from . import __project__, __version__
 import argparse
 
@@ -27,9 +29,6 @@ from .shared.config import get_settings
 from .shared.logger import Logger
 from datetime import datetime, timedelta
 from .pets.service import PetService
-
-logger = Logger(__name__)
-
 
 logger = Logger(__name__)
 
@@ -211,14 +210,20 @@ def list_surgeries_without_logs(
     end_date = datetime.now() - timedelta(days=1)
     start_date = end_date - timedelta(days=7)
 
-    logger.info("Listing surgeries without logs from %s to %s", start_date, end_date)
+    logger.info(
+        "Listing surgeries without logs from %s to %s",
+        date_helper.format_date(start_date),
+        date_helper.format_date(end_date),
+    )
 
     surgeries = calendar.list_surgeries()
     for surgery in surgeries:
+        surgery_date = surgery.get("start").get("dateTime")
+
         logger.info(
             "Surgery: %s, Date: %s",
             surgery.get("summary"),
-            surgery.get("start").get("dateTime"),
+            date_helper.format_date(surgery_date),
         )
 
     if not surgeries:
@@ -239,7 +244,7 @@ def list_surgeries_without_logs(
                 logger.info(
                     "Found log with id: %s, date: %s",
                     log.id,
-                    log.date_created,
+                    date_helper.format_date(log.date_created),
                 )
         except ValueError as e:
             logger.info("Error reading description: %s setting logs to empty list", e)
