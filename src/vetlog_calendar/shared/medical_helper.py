@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-KEYWORDS = [
+VALID_KEYWORDS = [
     "spay",
     "neuter",
     "medical",
@@ -25,8 +25,14 @@ KEYWORDS = [
     "medica",
 ]
 
+INVALID_KEYWORDS = [
+    "medicamento",
+]
+
 
 def is_medical_event(title: str) -> bool:
     """Determines if an event is a medical event based on its title."""
     title = title.lower()
-    return any(keyword in title for keyword in KEYWORDS)
+    if any(keyword in title for keyword in INVALID_KEYWORDS):
+        return False
+    return any(keyword in title for keyword in VALID_KEYWORDS)

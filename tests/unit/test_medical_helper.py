@@ -68,3 +68,8 @@ def test_is_surgery_detects_special_spanish_surgery_keyword_in_spanish():
 def test_is_surgery_detects_special_spanish_surgery_keyword_in_spanish_without_accent():
     """Detect special surgery keyword in appointment events in Spanish without accent"""
     assert is_medical_event("Jose - Cita esterilizacion para Sora")
+
+
+def test_should_not_detect_as_medical_event_if_keyword_is_medicamento():
+    """Should not detect as medical event if the keyword is 'medicamento'"""
+    assert not is_medical_event("Sonia - Cita shot de medicamento para Deimos")
