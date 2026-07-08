@@ -434,4 +434,4 @@ def test_list_surgeries_without_logs(mocker):
     list_surgeries_without_logs()
 
     mock_calendar.list_surgeries.assert_called_once()
-    mock_service.get_logs_by_date_range.assert_called_once()
+    assert mock_service.get_logs_by_date_range.call_count == 2

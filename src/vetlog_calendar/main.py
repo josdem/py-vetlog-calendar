@@ -242,15 +242,19 @@ def list_surgeries_without_logs(
                 description = surgery.get("description", "")
                 logger.info("Reading description: %s", description)
                 pet_id = get_vetlog_id(description)
-                logs = service.get_logs_by_date_range(start_date, end_date, pet_id=pet_id)
+                logs = service.get_logs_by_date_range(
+                    start_date, end_date, pet_id=pet_id
+                )
                 for log in logs:
                     logger.info(
-                    "Found log with id: %s, date: %s",
-                    log.id,
-                    date_helper.format_date(log.date_created),
-                )
+                        "Found log with id: %s, date: %s",
+                        log.id,
+                        date_helper.format_date(log.date_created),
+                    )
             except ValueError as e:
-                logger.info("Error reading description: %s setting logs to empty list", e)
+                logger.info(
+                    "Error reading description: %s setting logs to empty list", e
+                )
                 logs = []
 
             if not logs:
