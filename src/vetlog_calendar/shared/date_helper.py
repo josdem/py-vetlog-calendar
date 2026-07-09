@@ -42,3 +42,11 @@ def format_date(date_string: str) -> str:
         return date_string.strftime("%Y-%m-%d")
     parsed = datetime.fromisoformat(date_string)
     return parsed.strftime("%Y-%m-%d")
+
+
+def format_datetime(date_string: str) -> str:
+    """Format a datetime string from YYYY-mm-ddThh:mm:ss:timeZone to YYYY-mm-dd HH:mm"""
+    if isinstance(date_string, datetime):
+        return date_string.strftime("%Y-%m-%d %H:%M")
+    parsed = datetime.fromisoformat(date_string)
+    return parsed.strftime("%Y-%m-%d %H:%M")
