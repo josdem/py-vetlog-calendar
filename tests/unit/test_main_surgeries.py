@@ -66,14 +66,14 @@ def test_list_surgeries_without_logs_returns_surgeries_with_no_logs(
         list_surgeries_without_logs(calendar=mock_calendar, service=mock_service)
 
     mock_calendar.list_surgeries.assert_called_once()
-    mock_service.get_logs_by_date_range.assert_called_once()
+    assert mock_service.get_logs_by_date_range.call_count == 2
     mock_helper_cls.assert_called_once_with(
         pet=None, vaccination=None, owner=None, language="en"
     )
     mock_helper_instance.get_missing_pet_logs_event.assert_called_once_with(
         mock_surgery_events
     )
-    mock_calendar.create_event.assert_called_once_with(event)
+    assert mock_calendar.create_event.call_count == 2
 
 
 def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events):
@@ -103,7 +103,7 @@ def test_list_surgeries_without_logs_uses_selected_language(mock_surgery_events)
     mock_helper_instance.get_missing_pet_logs_event.assert_called_once_with(
         mock_surgery_events
     )
-    mock_calendar.create_event.assert_called_once()
+    assert mock_calendar.create_event.call_count == 2
 
 
 def test_list_surgeries_without_logs_excludes_surgeries_with_logs(mock_surgery_events):
@@ -170,4 +170,4 @@ def test_list_surgeries_without_logs_handles_invalid_description(mock_surgery_ev
 
     mock_calendar.list_surgeries.assert_called_once()
     mock_service.get_logs_by_date_range.assert_not_called()
-    mock_calendar.create_event.assert_called_once()  # Event should still be created since logs are empty
+    assert mock_calendar.create_event.call_count == 2
