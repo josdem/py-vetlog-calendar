@@ -34,14 +34,9 @@ class PetRepository:
     ) -> Sequence[PetLog]:
         if pet_id is None:
             return []
-        statement = (
-            select(PetLog)
-            .where(
-                PetLog.date_created >= start_date,
-                PetLog.date_created <= end_date,
-                PetLog.pet_id == pet_id,
-            )
-            .order_by(PetLog.date_created)
+        stmt = select(PetLog).where(
+            PetLog.pet_id == pet_id,
+            PetLog.date_created >= start_date,
+            PetLog.date_created <= end_date,
         )
-        results = self.session.exec(statement)
-        return results.all()
+        return self.session.exec(stmt).all()
