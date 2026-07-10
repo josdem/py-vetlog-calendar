@@ -44,6 +44,7 @@ def format_date(date_string: str) -> str:
     return parsed.strftime("%Y-%m-%d")
 
 
+@staticmethod
 def format_datetime(date_string: str) -> str:
     """Format a datetime string from YYYY-mm-ddThh:mm:ss:timeZone to YYYY-mm-dd HH:mm"""
     if isinstance(date_string, datetime):

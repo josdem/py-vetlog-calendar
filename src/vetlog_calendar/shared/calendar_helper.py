@@ -120,7 +120,7 @@ class Helper:
         pet_logs_info_header = self.locale.get_pet_logs_info_header()
         surgery_list = "\n".join(
             [
-                f"- {surgery['summary']} on {surgery['start']['dateTime']}"
+                f"- {surgery['summary']} on {date_helper.format_datetime(surgery['start']['dateTime'])}"
                 for surgery in surgeries
             ]
         )
