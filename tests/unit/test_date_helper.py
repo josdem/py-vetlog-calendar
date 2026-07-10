@@ -19,6 +19,7 @@ from vetlog_calendar.shared.date_helper import (
     validate_date,
     get_last_deworming_date,
     format_date,
+    format_datetime,
 )
 
 
@@ -109,3 +110,23 @@ def test_format_date_without_timezone():
 
 def test_format_if_date_object():
     assert format_date(datetime(2026, 6, 1, 14, 30)) == "2026-06-01"
+
+
+def test_format_datetime_removes_seconds_and_timezone():
+    assert format_datetime("2026-06-01T14:30:00-05:00") == "2026-06-01 14:30"
+
+
+def test_format_datetime_with_utc_timezone():
+    assert format_datetime("2026-12-25T00:05:30+00:00") == "2026-12-25 00:05"
+
+
+def test_format_datetime_with_positive_offset():
+    assert format_datetime("2026-01-15T23:59:59+05:30") == "2026-01-15 23:59"
+
+
+def test_format_datetime_without_timezone():
+    assert format_datetime("2026-07-04T12:08:45") == "2026-07-04 12:08"
+
+
+def test_format_datetime_if_date_object():
+    assert format_datetime(datetime(2026, 6, 1, 14, 30)) == "2026-06-01 14:30"
