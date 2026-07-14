@@ -192,7 +192,7 @@ def test_get_pet_logs_info_header_spanish():
     pet_logs_info_header = locale.get_pet_logs_info_header()
     assert (
         pet_logs_info_header
-        == "Nuestros registros muestran que no tenemos registros médicos y tuvimos las siguientes cirugías y/o consultas médicas.\n"
+        == "Nuestros registros muestran que no tenemos algunos registros médicos y tuvimos las siguientes cirugías y/o consultas médicas.\n"
     )
 
 
@@ -212,7 +212,7 @@ def test_get_pet_logs_info_footer_spanish():
     pet_logs_info_footer = locale.get_pet_logs_info_footer()
     assert (
         pet_logs_info_footer
-        == "Favor de crear esos registros médicos en cuanto sea posible.\n"
+        == "Favor de crear los registros médicos faltantes en cuanto sea posible.\n"
     )
 
 
